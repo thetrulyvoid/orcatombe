@@ -9,39 +9,54 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <style>
-    /* ===== ORCATOMBE · ESTÉTICA SOMBRIA ===== */
+    /* ===== ORCATOMBE · PALETA VERDE ORC ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --font-sans: 'Inter', system-ui, sans-serif;
       --font-serif: 'Cinzel', serif;
-      --color-background-primary: #0f0c0c;
-      --color-background-secondary: #1a1515;
-      --color-background-tertiary: #241c1c;
-      --color-background-danger: #2a1215;
-      --color-text-primary: #ece7e1;
-      --color-text-secondary: #b9aa9e;
-      --color-text-tertiary: #7e6e64;
-      --color-text-danger: #d97c7c;
-      --color-text-info: #b78c7c;
-      --color-border-primary: #4a2e2e;
-      --color-border-secondary: #6f3e3e;
-      --color-border-tertiary: #3e2929;
-      --color-border-danger: #a14343;
+      
+      /* Nova paleta Orc */
+      --orc-white: #ffffff;
+      --orc-cream: #fffbdc;
+      --orc-darkgreen: #01571e;
+      --orc-deepgreen: #003d0d;
+      --orc-neon: #3fcc10;
+      --orc-brightgreen: #2eb600;
+      
+      /* Adaptação para fundos e textos */
+      --color-background-primary: #0a0f0a;      /* quase preto esverdeado */
+      --color-background-secondary: #0e1a0e;    /* verde muito escuro */
+      --color-background-tertiary: #142314;
+      --color-background-danger: #1a2a1a;
+      
+      --color-text-primary: #f2f5e8;            /* branco esverdeado */
+      --color-text-secondary: #c0d6b8;
+      --color-text-tertiary: #80997a;
+      --color-text-danger: #b3d99c;
+      --color-text-info: #a6c99a;
+      
+      --color-border-primary: #1e4a1e;
+      --color-border-secondary: #2d7a2d;
+      --color-border-tertiary: #1a3a1a;
+      --color-border-danger: #3fcc10;           /* neon para perigo */
+      
       --border-radius-sm: 6px;
       --border-radius-md: 10px;
       --border-radius-lg: 16px;
-      --blood-red: #a32d2d;
-      --blood-bright: #c44b4b;
-      --blood-dark: #711c1c;
+      
+      --blood-red: #3fcc10;      /* agora verde neon */
+      --blood-bright: #6bff3b;
+      --blood-dark: #01571e;
     }
 
     body {
       font-family: var(--font-sans);
       background: var(--color-background-primary);
-      background-image: radial-gradient(circle at 30% 10%, rgba(160, 40, 40, 0.08) 0%, transparent 30%),
-                        radial-gradient(circle at 80% 70%, rgba(100, 20, 20, 0.06) 0%, transparent 40%),
-                        repeating-linear-gradient(45deg, rgba(60, 30, 30, 0.1) 0px, rgba(60, 30, 30, 0.1) 2px, transparent 2px, transparent 8px);
+      background-image: 
+        radial-gradient(circle at 30% 10%, rgba(46, 182, 0, 0.08) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(1, 87, 30, 0.1) 0%, transparent 40%),
+        repeating-linear-gradient(45deg, rgba(30, 70, 30, 0.08) 0px, rgba(30, 70, 30, 0.08) 2px, transparent 2px, transparent 8px);
       min-height: 100vh;
       padding: 1.5rem 1rem;
       color: var(--color-text-primary);
@@ -64,7 +79,7 @@
       left: 30%;
       width: 40%;
       height: 2px;
-      background: linear-gradient(90deg, transparent, var(--blood-red), transparent);
+      background: linear-gradient(90deg, transparent, var(--orc-neon), transparent);
     }
     .title-block h1 {
       font-family: var(--font-serif);
@@ -73,7 +88,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--color-text-primary);
-      text-shadow: 0 0 8px rgba(180, 40, 40, 0.5);
+      text-shadow: 0 0 8px rgba(46, 182, 0, 0.5);
       word-break: break-word;
     }
     .title-block p {
@@ -91,40 +106,67 @@
       text-transform: uppercase;
       letter-spacing: 0.2em;
       margin-bottom: 1.5rem;
-      border-left: 4px solid var(--blood-red);
+      border-left: 4px solid var(--orc-neon);
       padding-left: 16px;
     }
 
+    /* Cards de equipe com imagem */
     .teams-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
       margin-bottom: 2rem;
     }
     .team-card {
       background: var(--color-background-secondary);
       border: 1px solid var(--color-border-tertiary);
       border-radius: var(--border-radius-lg);
-      padding: 1.25rem 1rem;
+      padding: 0 0 1rem 0;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 0 rgba(0, 30, 0, 0.4);
       backdrop-filter: blur(4px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .team-card:hover {
       border-color: var(--color-border-secondary);
-      background: #1f1818;
+      background: #142014;
       transform: translateY(-2px);
-      box-shadow: 0 10px 0 rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 0 #0a1a0a;
     }
     .team-card.selected {
-      border: 2px solid var(--blood-red);
-      box-shadow: 0 0 12px rgba(163, 45, 45, 0.3), 0 8px 0 #1a0e0e;
-      background: #231b1b;
+      border: 2px solid var(--orc-neon);
+      box-shadow: 0 0 12px rgba(63, 204, 16, 0.3), 0 8px 0 #0e2a0e;
+      background: #162216;
     }
-    .team-card .icon { font-size: 32px; margin-bottom: 10px; filter: drop-shadow(0 2px 4px #300); }
-    .team-card h3 { font-family: var(--font-serif); font-size: 16px; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.05em; }
-    .team-card .subtitle { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 10px; line-height: 1.5; }
+    .team-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--color-border-tertiary);
+      background: #0c1a0c;
+    }
+    .team-card .card-content {
+      padding: 1rem 1rem 0.5rem 1rem;
+      flex: 1;
+    }
+    .team-card .icon { font-size: 28px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px #030); }
+    .team-card h3 { 
+      font-family: var(--font-serif); 
+      font-size: 16px; 
+      font-weight: 600; 
+      margin-bottom: 6px; 
+      letter-spacing: 0.05em; 
+      color: var(--color-text-primary);
+    }
+    .team-card .subtitle { 
+      font-size: 12px; 
+      color: var(--color-text-secondary); 
+      margin-bottom: 10px; 
+      line-height: 1.5; 
+    }
     .team-card .product-badge {
       display: inline-block;
       font-size: 10px;
@@ -135,6 +177,9 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       border: 0.5px solid currentColor;
+      background: #0f2a0f;
+      color: #b0e0a0;
+      border-color: var(--orc-neon);
     }
     .team-card .tagline {
       font-size: 11px;
@@ -146,25 +191,26 @@
       line-height: 1.5;
     }
 
+    /* Aviso Pássaros */
     .passaros-warning {
-      background: #1f1214;
+      background: #142014;
       border: 1px solid var(--color-border-danger);
       border-radius: var(--border-radius-lg);
       padding: 1.25rem 1.5rem;
       margin-bottom: 2.5rem;
-      box-shadow: inset 0 0 20px rgba(120, 20, 20, 0.2), 0 4px 0 #2f1515;
+      box-shadow: inset 0 0 20px rgba(46, 182, 0, 0.1), 0 4px 0 #1a3a1a;
     }
     .passaros-warning h3 {
       font-family: var(--font-serif);
       font-size: 16px;
       font-weight: 600;
-      color: #e07c7c;
+      color: #b0e0a0;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .passaros-warning h3::before { content: '🕊️'; font-size: 20px; filter: grayscale(0.8); }
-    .passaros-warning p { font-size: 14px; color: #d4b5b5; line-height: 1.6; }
+    .passaros-warning h3::before { content: '🕊️'; font-size: 20px; filter: grayscale(0.5); }
+    .passaros-warning p { font-size: 14px; color: #c0d6b8; line-height: 1.6; }
 
     .mechanics-grid {
       display: grid;
@@ -177,7 +223,7 @@
       border-radius: var(--border-radius-md);
       padding: 1.25rem;
       border: 1px solid var(--color-border-tertiary);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 4px 0 #0a0707;
+      box-shadow: inset 0 0 0 1px rgba(46, 182, 0, 0.05), 0 4px 0 #0a1a0a;
     }
     .mechanic-card h4 {
       font-family: var(--font-serif);
@@ -186,6 +232,7 @@
       margin-bottom: 8px;
       border-bottom: 1px dotted var(--color-border-secondary);
       padding-bottom: 5px;
+      color: #d0e8c0;
     }
     .mechanic-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
 
@@ -207,11 +254,11 @@
       font-weight: 700;
       flex-shrink: 0;
       margin-top: 2px;
-      background: #1e1616;
+      background: #0e1a0e;
       color: var(--color-text-secondary);
       border: 1.5px solid var(--color-border-tertiary);
       font-family: var(--font-serif);
-      box-shadow: 0 0 0 2px #0b0808;
+      box-shadow: 0 0 0 2px #0a100a;
     }
     .timeline-item .content h4 { font-family: var(--font-serif); font-size: 15px; font-weight: 600; letter-spacing: 0.03em; }
     .timeline-item .content p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 4px; }
@@ -239,8 +286,14 @@
       transition: all 0.15s;
       backdrop-filter: blur(4px);
     }
-    .tab:hover { border-color: var(--blood-red); color: var(--color-text-primary); background: #1f1717; }
-    .tab.active { background: #2d1d1d; color: #f0dbdb; border-color: var(--blood-red); font-weight: 600; box-shadow: 0 0 8px rgba(163,45,45,0.4); }
+    .tab:hover { border-color: var(--orc-neon); color: var(--color-text-primary); background: #1a2a1a; }
+    .tab.active { 
+      background: #1e3a1e; 
+      color: #e0f0d0; 
+      border-color: var(--orc-neon); 
+      font-weight: 600; 
+      box-shadow: 0 0 8px rgba(63, 204, 16, 0.4); 
+    }
 
     .panel { display: none; animation: fade 0.2s ease; }
     .panel.active { display: block; }
@@ -257,7 +310,7 @@
       border: 1px solid var(--color-border-tertiary);
       border-radius: var(--border-radius-md);
       padding: 1rem;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+      box-shadow: inset 0 2px 4px rgba(0,20,0,0.6);
     }
     .role-card h4 { font-family: var(--font-serif); font-size: 14px; font-weight: 600; margin-bottom: 6px; }
     .role-card p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
@@ -267,7 +320,7 @@
       border-collapse: collapse;
       font-size: 14px;
       margin-bottom: 2rem;
-      background: #130e0e;
+      background: #0e1a0e;
       border-radius: var(--border-radius-md);
       overflow: hidden;
       border: 1px solid var(--color-border-tertiary);
@@ -277,25 +330,39 @@
       font-family: var(--font-serif);
       font-size: 12px;
       font-weight: 600;
-      color: #c4aaa0;
+      color: #c0d6b8;
       padding: 12px 12px;
-      background: #1c1414;
-      border-bottom: 2px solid var(--blood-dark);
+      background: #142314;
+      border-bottom: 2px solid var(--orc-darkgreen);
       letter-spacing: 0.08em;
     }
     .points-table td { padding: 12px; border-bottom: 1px solid var(--color-border-tertiary); color: var(--color-text-primary); }
     .points-table tr:last-child td { border-bottom: none; }
-    .points-table td:last-child { font-weight: 700; text-align: right; color: #e6bfbf; }
+    .points-table td:last-child { font-weight: 700; text-align: right; color: #c0e0b0; }
 
     .divider { border: none; border-top: 2px dashed var(--color-border-tertiary); margin: 2rem 0; opacity: 0.6; }
 
     #team-detail {
-      background: #151010;
+      background: #0e1a0e;
       border-radius: var(--border-radius-lg);
       padding: 1.5rem;
       margin-top: 0.5rem;
-      border: 1px solid #3a2626;
-      box-shadow: inset 0 0 30px #0a0505, 0 6px 0 #0b0707;
+      border: 1px solid #1e4a1e;
+      box-shadow: inset 0 0 30px #050a05, 0 6px 0 #0a1a0a;
+    }
+    .team-detail-header {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .team-detail-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid var(--orc-neon);
     }
 
     .rewards-grid {
@@ -304,20 +371,20 @@
       gap: 12px;
     }
     .reward-item {
-      background: #1b1313;
+      background: #142014;
       border-radius: var(--border-radius-md);
       padding: 1rem;
-      border-left: 6px solid var(--blood-red);
+      border-left: 6px solid var(--orc-neon);
     }
 
-    /* Estilos para a planilha */
+    /* Registro / Planilha */
     .registro-container {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
     .form-add-lead {
-      background: #1a1313;
+      background: #0e1a0e;
       border: 1px solid var(--color-border-tertiary);
       border-radius: var(--border-radius-lg);
       padding: 1.5rem;
@@ -338,7 +405,7 @@
       color: var(--color-text-tertiary);
     }
     .form-group input, .form-group select {
-      background: #0f0c0c;
+      background: #0a0f0a;
       border: 1px solid var(--color-border-tertiary);
       border-radius: 6px;
       padding: 8px 10px;
@@ -347,35 +414,32 @@
       font-size: 13px;
     }
     .btn {
-      background: var(--blood-dark);
+      background: var(--orc-darkgreen);
       border: none;
       border-radius: 30px;
       padding: 8px 18px;
       font-family: var(--font-serif);
       font-weight: 600;
-      color: #f0dbdb;
-      border: 1px solid var(--blood-red);
+      color: #e0f0d0;
+      border: 1px solid var(--orc-neon);
       cursor: pointer;
       transition: 0.15s;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-size: 12px;
-      box-shadow: 0 3px 0 #3a1010;
+      box-shadow: 0 3px 0 #0e3a0e;
     }
     .btn:hover {
-      background: #8f2626;
+      background: #2eb600;
       transform: translateY(-1px);
-      box-shadow: 0 4px 0 #3a1010;
+      box-shadow: 0 4px 0 #0e3a0e;
     }
-    .btn.small {
-      padding: 4px 12px;
-      font-size: 11px;
-    }
+    .btn.small { padding: 4px 12px; font-size: 11px; }
     .table-wrapper {
       overflow-x: auto;
       border-radius: var(--border-radius-md);
       border: 1px solid var(--color-border-tertiary);
-      background: #130e0e;
+      background: #0e1a0e;
     }
     .leads-table {
       width: 100%;
@@ -386,20 +450,17 @@
     .leads-table th {
       text-align: left;
       padding: 12px 8px;
-      background: #1c1414;
-      color: #c4aaa0;
+      background: #142314;
+      color: #c0d6b8;
       font-family: var(--font-serif);
       font-weight: 500;
       font-size: 11px;
       letter-spacing: 0.05em;
       border-bottom: 1px solid var(--color-border-tertiary);
     }
-    .leads-table td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #2a1e1e;
-      color: var(--color-text-secondary);
-    }
+    .leads-table td { padding: 10px 8px; border-bottom: 1px solid #1e3a1e; color: var(--color-text-secondary); }
     .leads-table tr:last-child td { border-bottom: none; }
+    
     .pontuacao-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -407,40 +468,25 @@
       margin-top: 1rem;
     }
     .pontuacao-card {
-      background: #151010;
+      background: #0e1a0e;
       border: 1px solid var(--color-border-tertiary);
       border-radius: var(--border-radius-md);
       padding: 1rem;
       text-align: center;
     }
-    .pontuacao-card h4 {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: var(--color-text-primary);
-    }
-    .pontuacao-card .score {
-      font-size: 32px;
-      font-weight: 700;
-      color: #e6bfbf;
-      text-shadow: 0 0 8px #a32d2d;
-    }
+    .pontuacao-card h4 { font-family: var(--font-serif); font-size: 16px; margin-bottom: 8px; }
+    .pontuacao-card .score { font-size: 32px; font-weight: 700; color: #c0e0b0; text-shadow: 0 0 8px var(--orc-neon); }
     .badge-leader {
-      background: var(--blood-red);
-      color: #f0dbdb;
+      background: var(--orc-neon);
+      color: #003d0d;
+      font-weight: bold;
       font-size: 10px;
       padding: 2px 8px;
       border-radius: 20px;
       display: inline-block;
       margin-top: 5px;
     }
-    .action-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 1rem;
-      align-items: center;
-    }
+    .action-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
 
     @media (max-width: 600px) {
       body { padding: 0.8rem; }
@@ -467,48 +513,67 @@
 
   <!-- PAINEL EQUIPES -->
   <div id="equipes" class="panel active">
-    <!-- Conteúdo mantido igual ao anterior -->
     <div class="passaros-warning">
       <h3>Os Pássaros — memória dos que tombaram</h3>
-      <p>A equipe dos Pássaros foi dizimada na primeira noite do Orcatombe por se isolar, não buscar aliados e ser pega de surpresa. Aqui, eles são o aviso: não prospectar é morrer. Toda semana que uma equipe zera em prospecções, ela "vira Pássaro" — recebe a bandeira vermelha e precisa ser "resgatada" pelos outros. Um sobrevivente dos Pássaros (Pomba) só sobreviveu porque carregava informações valiosas para compartilhar.</p>
+      <p>A equipe dos Pássaros foi dizimada na primeira noite do Orcatombe por se isolar, não buscar aliados e ser pega de surpresa. Aqui, eles são o aviso: não prospectar é morrer.</p>
     </div>
 
     <p class="section-title">Escolha uma equipe para conhecer</p>
     <div class="teams-grid" id="teams-grid">
-      <div class="team-card selected" style="border-color: #A32D2D;" onclick="selectTeam(0)">
-        <div class="icon">🎭</div>
-        <h3>Mascarados</h3>
-        <div class="subtitle">Agentes da Ordem. Diplomatas e estrategistas que agem com precisão.</div>
-        <span class="product-badge" style="background:#2f1717; color:#d99b9b; border-color:#a32d2d;">Design de Gamificação</span>
-        <div class="tagline">"Cada máscara revela uma intenção."</div>
+      <!-- Mascarados -->
+      <div class="team-card selected" onclick="selectTeam(0)">
+        <img class="team-img" src="https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg" alt="Mascarados" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Mascarados'">
+        <div class="card-content">
+          <div class="icon">🎭</div>
+          <h3>Mascarados</h3>
+          <div class="subtitle">Agentes da Ordem. Diplomatas e estrategistas.</div>
+          <span class="product-badge">Design de Gamificação</span>
+          <div class="tagline">"Cada máscara revela uma intenção."</div>
+        </div>
       </div>
+      <!-- PSIKOLERA -->
       <div class="team-card" onclick="selectTeam(1)">
-        <div class="icon">🎸</div>
-        <h3>PSIKOLERA</h3>
-        <div class="subtitle">Banda ocultista. Caóticos, energéticos e cheios de truques.</div>
-        <span class="product-badge" style="background:#2f1717; color:#d99b9b; border-color:#a32d2d;">Design de Gamificação</span>
-        <div class="tagline">"Sem a máscara somos outros. Com ela, somos imparáveis."</div>
+        <img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br" alt="PSIKOLERA" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=PSIKOLERA'">
+        <div class="card-content">
+          <div class="icon">🎸</div>
+          <h3>PSIKOLERA</h3>
+          <div class="subtitle">Banda ocultista. Caóticos e energéticos.</div>
+          <span class="product-badge">Design de Gamificação</span>
+          <div class="tagline">"Sem a máscara somos outros. Com ela, somos imparáveis."</div>
+        </div>
       </div>
+      <!-- Couraças -->
       <div class="team-card" onclick="selectTeam(2)">
-        <div class="icon">⚙️</div>
-        <h3>Couraças</h3>
-        <div class="subtitle">Cultistas blindados. Constroem fortalezas e expandem território.</div>
-        <span class="product-badge" style="background:#1e1a2b; color:#b7a9e0; border-color:#534AB7;">Landing Page Gamificada</span>
-        <div class="tagline">"Nossa armadura é nossa metodologia."</div>
+        <img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br" alt="Couraças" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Couraças'">
+        <div class="card-content">
+          <div class="icon">⚙️</div>
+          <h3>Couraças</h3>
+          <div class="subtitle">Cultistas blindados. Constroem fortalezas.</div>
+          <span class="product-badge">Landing Page Gamificada</span>
+          <div class="tagline">"Nossa armadura é nossa metodologia."</div>
+        </div>
       </div>
+      <!-- Vampiros -->
       <div class="team-card" onclick="selectTeam(3)">
-        <div class="icon">🩸</div>
-        <h3>Vampiros</h3>
-        <div class="subtitle">Calculistas e metódicos. Atacam no momento certo.</div>
-        <span class="product-badge" style="background:#1e1a2b; color:#b7a9e0; border-color:#534AB7;">Landing Page Gamificada</span>
-        <div class="tagline">"Paciência é poder."</div>
+        <img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br" alt="Vampiros" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Vampiros'">
+        <div class="card-content">
+          <div class="icon">🩸</div>
+          <h3>Vampiros</h3>
+          <div class="subtitle">Calculistas e metódicos. Atacam no momento certo.</div>
+          <span class="product-badge">Landing Page Gamificada</span>
+          <div class="tagline">"Paciência é poder."</div>
+        </div>
       </div>
+      <!-- Transtornados -->
       <div class="team-card" onclick="selectTeam(4)">
-        <div class="icon">🌀</div>
-        <h3>Transtornados</h3>
-        <div class="subtitle">Ocultistas de informação. Sabem de tudo e usam como moeda.</div>
-        <span class="product-badge" style="background:#17312a; color:#9ed9c4; border-color:#0F6E56;">Qualquer produto</span>
-        <div class="tagline">"Nossa inteligência é nossa arma."</div>
+        <img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br" alt="Transtornados" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Transtornados'">
+        <div class="card-content">
+          <div class="icon">🌀</div>
+          <h3>Transtornados</h3>
+          <div class="subtitle">Ocultistas de informação. Sabem de tudo.</div>
+          <span class="product-badge">Qualquer produto</span>
+          <div class="tagline">"Nossa inteligência é nossa arma."</div>
+        </div>
       </div>
     </div>
 
@@ -517,197 +582,140 @@
     </div>
   </div>
 
-  <!-- PAINEL MECÂNICAS -->
+  <!-- PAINEL MECÂNICAS (mantido com pequenos ajustes de cor) -->
   <div id="mecanicas" class="panel">
-    <!-- Conteúdo mantido igual ao anterior -->
     <p class="section-title">O ritual transposto para vendas</p>
     <div class="mechanics-grid">
-      <div class="mechanic-card"><h4>O Sino</h4><p>Quando uma equipe fecha uma proposta, o sino toca: a equipe ganha +5 PE e todas as outras perdem -5 PE. O clima muda. A pressão aumenta.</p></div>
-      <div class="mechanic-card"><h4>Estigmas de intenção</h4><p>Cada equipe carrega um estigma — uma intenção que dá poder e exige uma condição. Cumprir a condição desbloqueia um poder especial (1 vez por ciclo).</p></div>
-      <div class="mechanic-card"><h4>Chamado às Armas</h4><p>Substitui o tributo: no início do ciclo, cada equipe anuncia seu grito de guerra (ICP foco). Sem isso, não ganha o bônus inicial de +2 PE.</p></div>
-      <div class="mechanic-card"><h4>Desertor</h4><p>Membro que não cumpre cota mínima (3/dia) por 2 dias seguidos vira Desertor: perde -3 em qualquer ação que fizer, e sua equipe perde -1 em todas as ações enquanto ele estiver marcado.</p></div>
-      <div class="mechanic-card"><h4>Sacrifício Protegido</h4><p>Cada equipe escolhe um "Sacrifício" (membro com menor desempenho). Se esse membro conseguir converter um lead em reunião, a equipe ganha +8 PE (bônus único por ciclo).</p></div>
-      <div class="mechanic-card"><h4>Sem Alianças</h4><p>Cada equipe luta por si. Não há transferência de leads. A guerra é individual e implacável.</p></div>
-      <div class="mechanic-card"><h4>A Lua de Sangue</h4><p>O fim não tem data fixa — ocorre quando um contrato é fechado. Naquele momento, contam-se os PE acumulados. A equipe com mais pontos realiza seu desejo.</p></div>
-      <div class="mechanic-card"><h4>O Quibungo</h4><p>Criatura do ruído. Operações pode ativar "Silêncio do Quibungo": cancelar uma reunião improdutiva e converter o tempo em +3 PE para a equipe.</p></div>
+      <div class="mechanic-card"><h4>O Sino</h4><p>Quando uma equipe fecha uma proposta, o sino toca: a equipe ganha +5 PE e todas as outras perdem -5 PE.</p></div>
+      <div class="mechanic-card"><h4>Estigmas de intenção</h4><p>Cada equipe carrega um estigma — poder especial (1 vez por ciclo).</p></div>
+      <div class="mechanic-card"><h4>Chamado às Armas</h4><p>No início, cada equipe anuncia ICP foco. Ganha +2 PE iniciais.</p></div>
+      <div class="mechanic-card"><h4>Desertor</h4><p>Membro que não cumpre cota mínima (3/dia) por 2 dias: -3 em ações, equipe -1 em todas.</p></div>
+      <div class="mechanic-card"><h4>Sacrifício Protegido</h4><p>Se o membro mais fraco converter lead, equipe ganha +8 PE (bônus único).</p></div>
+      <div class="mechanic-card"><h4>Sem Alianças</h4><p>Cada equipe luta por si. Não há transferência de leads.</p></div>
+      <div class="mechanic-card"><h4>Lua de Sangue</h4><p>Fim ocorre quando um contrato é fechado. Vencedor realiza desejo.</p></div>
+      <div class="mechanic-card"><h4>Quibungo</h4><p>Operações pode cancelar reunião improdutiva → +3 PE para equipe.</p></div>
     </div>
-
     <hr class="divider">
-    <p class="section-title">Os estigmas das equipes (ativável 1 vez)</p>
+    <p class="section-title">Estigmas (ativável 1 vez)</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
       <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;">
-        <div style="font-size:11px; font-weight:600; color:#c29b9b; margin-bottom:8px;">MASCARADOS — Desejo</div>
-        <div style="font-size:14px; color:var(--color-text-primary); margin-bottom:8px; font-style:italic;">"Encare o Limiar e retorne a tua forma pristina"</div>
-        <div style="font-size:12px; color:var(--color-text-secondary);">Condição: ativar "Máscaras" (1x/semana). Naquele dia, cada lead convertido dá +3 PE extra.</div>
+        <div style="font-size:11px; font-weight:600; color:#a6c99a;">MASCARADOS — Desejo</div>
+        <div style="font-size:14px; margin:8px 0; font-style:italic;">"Encare o Limiar e retorne a tua forma pristina"</div>
+        <div style="font-size:12px; color: var(--color-text-secondary);">Condição: ativar "Máscaras" (1x/semana). Leads convertidos no dia dão +3 PE extra.</div>
       </div>
       <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;">
-        <div style="font-size:11px; font-weight:600; color:#c29b9b; margin-bottom:8px;">PSIKOLERA — Ira</div>
-        <div style="font-size:14px; color:var(--color-text-primary); margin-bottom:8px; font-style:italic;">"Liberta tua cólera primordial e aniquila"</div>
-        <div style="font-size:12px; color:var(--color-text-secondary);">Condição: todos prospectarem o mesmo segmento no dia. Ganham +2 PE por lead desse segmento.</div>
+        <div style="font-size:11px; font-weight:600; color:#a6c99a;">PSIKOLERA — Ira</div>
+        <div style="font-size:14px; margin:8px 0; font-style:italic;">"Liberta tua cólera primordial e aniquila"</div>
+        <div style="font-size:12px;">Condição: todos prospectarem mesmo segmento no dia. +2 PE por lead desse segmento.</div>
       </div>
       <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;">
-        <div style="font-size:11px; font-weight:600; color:#c29b9b; margin-bottom:8px;">COURAÇAS — Obsessão</div>
-        <div style="font-size:14px; color:var(--color-text-primary); margin-bottom:8px; font-style:italic;">"Testifica tua lealdade e sangra sob as mãos de teu vínculo"</div>
-        <div style="font-size:12px; color:var(--color-text-secondary);">Condição: não perder nenhum membro para Desertor no ciclo. Poder: imunidade ao efeito Pássaro por 2 dias.</div>
+        <div style="font-size:11px; font-weight:600; color:#a6c99a;">COURAÇAS — Obsessão</div>
+        <div style="font-size:14px; margin:8px 0; font-style:italic;">"Testifica tua lealdade e sangra sob as mãos de teu vínculo"</div>
+        <div style="font-size:12px;">Condição: sem Desertor no ciclo → imunidade a Pássaro por 2 dias.</div>
       </div>
       <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;">
-        <div style="font-size:11px; font-weight:600; color:#c29b9b; margin-bottom:8px;">VAMPIROS — Culpa</div>
-        <div style="font-size:14px; color:var(--color-text-primary); margin-bottom:8px; font-style:italic;">"Carrega o fardo daquele sucumbido em teu amparo"</div>
-        <div style="font-size:12px; color:var(--color-text-secondary);">Condição: resgatar um Desertor (próprio ou de outra equipe). Poder: o resgatado dobra seus PE por 1 dia.</div>
+        <div style="font-size:11px; font-weight:600; color:#a6c99a;">VAMPIROS — Culpa</div>
+        <div style="font-size:14px; margin:8px 0; font-style:italic;">"Carrega o fardo daquele sucumbido em teu amparo"</div>
+        <div style="font-size:12px;">Condição: resgatar um Desertor. Resgatado dobra PE por 1 dia.</div>
       </div>
       <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;">
-        <div style="font-size:11px; font-weight:600; color:#c29b9b; margin-bottom:8px;">TRANSTORNADOS — Orgulho</div>
-        <div style="font-size:14px; color:var(--color-text-primary); margin-bottom:8px; font-style:italic;">"Abata incólume o indigno que ousaria te flagelar"</div>
-        <div style="font-size:12px; color:var(--color-text-secondary);">Condição: ter a maior taxa de conversão do ciclo. Poder: roubar 5 PE de qualquer equipe.</div>
+        <div style="font-size:11px; font-weight:600; color:#a6c99a;">TRANSTORNADOS — Orgulho</div>
+        <div style="font-size:14px; margin:8px 0; font-style:italic;">"Abata incólume o indigno que ousaria te flagelar"</div>
+        <div style="font-size:12px;">Condição: maior taxa de conversão → rouba 5 PE de qualquer equipe.</div>
       </div>
     </div>
   </div>
 
-  <!-- PAINEL PONTOS -->
+  <!-- PAINEL PONTOS (mantido) -->
   <div id="pontos" class="panel">
-    <!-- Conteúdo mantido igual -->
     <p class="section-title">Sistema de pontos de essência (PE)</p>
-    <p style="font-size:14px; color:var(--color-text-secondary); margin-bottom:1.8rem;">Pontos de Essência são o sangue do Orcatombe. Acumulam por equipe e definem o vencedor quando um contrato é fechado.</p>
+    <p style="font-size:14px; color:var(--color-text-secondary); margin-bottom:1.8rem;">Pontos de Essência são o sangue do Orcatombe.</p>
     <table class="points-table">
-      <tr><th>Ação / Missão</th><th>PE ganhos</th></tr>
-      <tr><td>Prospecção realizada (ligação/email/WhatsApp)</td><td>+1 PE</td></tr>
-      <tr><td>Prospecção acima da cota (acima de 6/dia)</td><td>+2 PE extra cada</td></tr>
-      <tr><td>Reunião de diagnóstico agendada</td><td>+5 PE</td></tr>
+      <tr><th>Ação / Missão</th><th>PE</th></tr>
+      <tr><td>Prospecção realizada</td><td>+1 PE</td></tr>
+      <tr><td>Acima da cota (6+/dia)</td><td>+2 PE extra</td></tr>
+      <tr><td>Reunião agendada</td><td>+5 PE</td></tr>
       <tr><td>Proposta enviada</td><td>+10 PE</td></tr>
-      <tr><td>Projeto fechado (toca o Sino)</td><td>+30 PE (e -5 para outros)</td></tr>
-      <tr><td>Estigma da equipe ativado</td><td>+15 PE</td></tr>
+      <tr><td>Projeto fechado (toca Sino)</td><td>+30 PE (e -5 outros)</td></tr>
+      <tr><td>Estigma ativado</td><td>+15 PE</td></tr>
       <tr><td>Resgate de Desertor</td><td>+8 PE</td></tr>
-      <tr><td>Sacrifício Protegido converte lead</td><td>+8 PE (bônus único)</td></tr>
-      <tr><td>Chamado às Armas (anunciar ICP foco)</td><td>+2 PE iniciais</td></tr>
+      <tr><td>Sacrifício Protegido converte</td><td>+8 PE (bônus único)</td></tr>
+      <tr><td>Chamado às Armas</td><td>+2 PE iniciais</td></tr>
     </table>
     <table class="points-table">
-      <tr><th>Penalidade / Castigo</th><th>PE / Efeito</th></tr>
-      <tr><td>Membro Desertor</td><td>-3 em ações do Desertor, -1 para a equipe</td></tr>
-      <tr><td>Virar Pássaro (equipe zera prospecção no dia)</td><td>-3 PE</td></tr>
+      <tr><th>Penalidade</th><th>Efeito</th></tr>
+      <tr><td>Membro Desertor</td><td>-3 ações / equipe -1</td></tr>
+      <tr><td>Virar Pássaro (zerar dia)</td><td>-3 PE</td></tr>
     </table>
     <hr class="divider">
-    <p class="section-title">Recompensas — o desejo realizado</p>
+    <p class="section-title">Recompensas</p>
     <div class="rewards-grid">
-      <div class="reward-item"><div style="font-size:12px;color:#b78c7c;">1º lugar (equipe)</div><div style="font-size:14px;">Jantar + troféu da Coroa de Espinhos + 1 folga coletiva</div></div>
-      <div class="reward-item"><div style="font-size:12px;color:#b78c7c;">Top 6 prospecções individuais</div><div style="font-size:14px;">Prêmio individual (experiência, reconhecimento)</div></div>
-      <div class="reward-item"><div style="font-size:12px;color:#b78c7c;">Fechou projeto</div><div style="font-size:14px;">Bônus fixo + menção no encerramento</div></div>
-      <div class="reward-item"><div style="font-size:12px;color:#b78c7c;">Melhor Desertor Resgatado</div><div style="font-size:14px;">Título "Pomba" — o sobrevivente</div></div>
+      <div class="reward-item"><div>1º lugar (equipe)</div><div>Jantar + troféu + folga</div></div>
+      <div class="reward-item"><div>Top 6 individuais</div><div>Prêmio especial</div></div>
+      <div class="reward-item"><div>Fechou projeto</div><div>Menção honrosa</div></div>
+      <div class="reward-item"><div>Melhor resgate</div><div>Título "Pomba"</div></div>
     </div>
   </div>
 
   <!-- PAINEL PAPÉIS -->
   <div id="papeis" class="panel">
-    <!-- Conteúdo mantido igual -->
-    <p class="section-title">Os papéis sagrados dentro de cada equipe</p>
-    <p style="font-size:14px; color:var(--color-text-secondary); margin-bottom:1.5rem;">No Orcatombe, cada membro tinha um papel. No Estado de Guerra, cada diretoria carrega seu papel ritual.</p>
+    <p class="section-title">Os papéis sagrados</p>
     <div class="role-grid">
-      <div class="role-card"><h4>Negócios — O Ocultista</h4><p>Possui o conhecimento do ritual de vendas. Ensina, guia e conduz as reuniões de diagnóstico.</p></div>
-      <div class="role-card"><h4>Projetos — O Historiador</h4><p>Sabe tudo sobre o produto da equipe. Explica, demonstra e tira dúvidas.</p></div>
-      <div class="role-card"><h4>Operações — O Cartógrafo</h4><p>Mapeia o estado da equipe. Cuida do bem-estar, identifica Desertores e organiza o apoio ao Sacrifício.</p></div>
-      <div class="role-card"><h4>Marketing — O Escripta</h4><p>Registra e traduz. Traz informações sobre ICP e persona.</p></div>
-      <div class="role-card"><h4>Executiva — Agentes infiltrados</h4><p>Não lideram, mas prospectam junto. São agentes da Ordo Realitas.</p></div>
+      <div class="role-card"><h4>Negócios — O Ocultista</h4><p>Conduz diagnóstico e ensina o ritual.</p></div>
+      <div class="role-card"><h4>Projetos — O Historiador</h4><p>Sabe tudo sobre o produto.</p></div>
+      <div class="role-card"><h4>Operações — O Cartógrafo</h4><p>Mapeia a equipe, identifica Desertores.</p></div>
+      <div class="role-card"><h4>Marketing — O Escripta</h4><p>ICP e persona.</p></div>
+      <div class="role-card"><h4>Executiva — Agentes infiltrados</h4><p>Prospectam junto.</p></div>
     </div>
     <hr class="divider">
-    <p class="section-title">Composição de cada equipe (34 pessoas / 5 equipes)</p>
-    <p style="font-size:14px; color:var(--color-text-secondary);">Cada equipe tem ~6-7 membros: 1 Negócios, 1 Marketing, 1 Operações, 1 Projetos + membros gerais + 1 diretoria executiva.</p>
-    <div style="background: #1c1414; border-radius:12px; padding:1.2rem; margin-top:1rem; border:1px solid #4a2e2e;">
-      <strong style="color:#e6cfcf;">Distribuição sugerida:</strong><br>
+    <p class="section-title">Composição (34 pessoas / 5 equipes)</p>
+    <div style="background: #0e1a0e; border-radius:12px; padding:1.2rem; border:1px solid var(--color-border-tertiary);">
+      <strong style="color:#c0e0b0;">Distribuição sugerida:</strong><br>
       5 equipes × ~6 membros = 30 + 4 diretores executivos = 34 pessoas<br>
-      2 equipes vendem Design de Gamificação · 2 equipes vendem Landing Page Gamificada · 1 equipe livre.
+      2 vendem Design de Gamificação · 2 vendem Landing Page · 1 livre.
     </div>
   </div>
 
-  <!-- PAINEL CRONOLOGIA (FASES) -->
+  <!-- PAINEL CRONOLOGIA -->
   <div id="cronologia" class="panel">
-    <!-- Conteúdo mantido igual -->
     <p class="section-title">Fases da Guerra — até o contrato</p>
     <div class="timeline">
-      <div class="timeline-item"><div class="timeline-dot">I</div><div class="content"><h4>Chamado às Armas</h4><p>Anúncio do ICP foco. Cada equipe define seu alvo. Ganha +2 PE iniciais.</p></div></div>
-      <div class="timeline-item"><div class="timeline-dot">II</div><div class="content"><h4>Caçada</h4><p>Prospecções diárias. Desertores são marcados. Estigmas podem ser ativados.</p></div></div>
-      <div class="timeline-item"><div class="timeline-dot">III</div><div class="content"><h4>Pressão do Sangue</h4><p>O Cartógrafo monitora. Quem zera vira Pássaro. O Sacrifício é protegido.</p></div></div>
-      <div class="timeline-item"><div class="timeline-dot">IV</div><div class="content"><h4>Último Suspiro</h4><p>Quando uma proposta está próxima, o clima esquenta. Todos se preparam para o Sino.</p></div></div>
-      <div class="timeline-item"><div class="timeline-dot" style="background: #4a1e1e; color: #f0c0c0; border-color: #b44;">LUA</div><div class="content"><h4>Lua de Sangue — Fechamento</h4><p>No momento em que um contrato é assinado, o ritual se encerra. Contagem final de PE. A equipe vencedora tem seu desejo realizado.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">I</div><div class="content"><h4>Chamado às Armas</h4><p>Anúncio do ICP foco. +2 PE iniciais.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">II</div><div class="content"><h4>Caçada</h4><p>Prospecções diárias. Desertores marcados.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">III</div><div class="content"><h4>Pressão do Sangue</h4><p>Quem zera vira Pássaro. Sacrifício protegido.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">IV</div><div class="content"><h4>Último Suspiro</h4><p>Proposta próxima, clima tenso.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background: #1e4a1e; color: #e0f0d0; border-color: #3fcc10;">LUA</div><div class="content"><h4>Lua de Sangue — Fechamento</h4><p>Contagem final de PE. Equipe vencedora realiza desejo.</p></div></div>
     </div>
   </div>
 
-  <!-- NOVO PAINEL: REGISTRO & PONTUAÇÃO -->
+  <!-- PAINEL REGISTRO & PONTUAÇÃO (ZERADO) -->
   <div id="registro" class="panel">
     <p class="section-title">📜 Registro dos Leads — Planilha do Orcatombe</p>
     <div class="registro-container">
-      <!-- Formulário para adicionar lead -->
       <div class="form-add-lead">
-        <div class="form-group">
-          <label>Data</label>
-          <input type="date" id="leadData" value="2026-04-16">
-        </div>
-        <div class="form-group">
-          <label>Equipe</label>
-          <select id="leadEquipe">
-            <option value="Mascarados">🎭 Mascarados</option>
-            <option value="PSIKOLERA">🎸 PSIKOLERA</option>
-            <option value="Couraças">⚙️ Couraças</option>
-            <option value="Vampiros">🩸 Vampiros</option>
-            <option value="Transtornados">🌀 Transtornados</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Membro</label>
-          <input type="text" id="leadMembro" placeholder="Nome do vendedor">
-        </div>
-        <div class="form-group">
-          <label>Nome do Lead</label>
-          <input type="text" id="leadNome" placeholder="Ex: João Silva">
-        </div>
-        <div class="form-group">
-          <label>Empresa</label>
-          <input type="text" id="leadEmpresa" placeholder="Empresa">
-        </div>
-        <div class="form-group">
-          <label>Canal</label>
-          <select id="leadCanal">
-            <option>Ligação</option>
-            <option>Email</option>
-            <option>WhatsApp</option>
-            <option>LinkedIn</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="leadStatus">
-            <option value="contatado">📞 Contatado (prospecção)</option>
-            <option value="reuniao">🤝 Reunião agendada</option>
-            <option value="proposta">📄 Proposta enviada</option>
-            <option value="fechado">🏆 Projeto fechado</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Data</label><input type="date" id="leadData"></div>
+        <div class="form-group"><label>Equipe</label><select id="leadEquipe"><option>Mascarados</option><option>PSIKOLERA</option><option>Couraças</option><option>Vampiros</option><option>Transtornados</option></select></div>
+        <div class="form-group"><label>Membro</label><input type="text" id="leadMembro" placeholder="Nome"></div>
+        <div class="form-group"><label>Lead</label><input type="text" id="leadNome" placeholder="Nome do lead"></div>
+        <div class="form-group"><label>Empresa</label><input type="text" id="leadEmpresa" placeholder="Empresa"></div>
+        <div class="form-group"><label>Canal</label><select id="leadCanal"><option>Ligação</option><option>Email</option><option>WhatsApp</option><option>LinkedIn</option></select></div>
+        <div class="form-group"><label>Status</label><select id="leadStatus"><option value="contatado">📞 Contatado</option><option value="reuniao">🤝 Reunião</option><option value="proposta">📄 Proposta</option><option value="fechado">🏆 Fechado</option></select></div>
         <button class="btn" onclick="adicionarLead()">➕ Registrar Lead</button>
       </div>
-
-      <!-- Ações rápidas -->
       <div class="action-bar">
-        <button class="btn small" onclick="aplicarEstigma()">✨ Ativar Estigma (equipe selecionada)</button>
+        <button class="btn small" onclick="aplicarEstigma()">✨ Ativar Estigma</button>
         <button class="btn small" onclick="registrarDesertor()">⚠️ Marcar Desertor</button>
-        <button class="btn small" onclick="tocarSino()">🔔 Tocar o Sino (fechamento)</button>
+        <button class="btn small" onclick="tocarSino()">🔔 Tocar o Sino</button>
         <button class="btn small" onclick="resetarPlanilha()">🗑️ Limpar registros</button>
       </div>
-
-      <!-- Tabela de Leads -->
       <div class="table-wrapper">
         <table class="leads-table" id="tabelaLeads">
-          <thead>
-            <tr>
-              <th>Data</th><th>Equipe</th><th>Membro</th><th>Lead</th><th>Empresa</th><th>Canal</th><th>Status</th><th>Pontos</th><th></th>
-            </tr>
-          </thead>
-          <tbody id="leadsBody">
-            <!-- Dados inseridos via JS -->
-          </tbody>
+          <thead><tr><th>Data</th><th>Equipe</th><th>Membro</th><th>Lead</th><th>Empresa</th><th>Canal</th><th>Status</th><th>Pontos</th><th></th></tr></thead>
+          <tbody id="leadsBody"></tbody>
         </table>
       </div>
-
-      <!-- Pontuação por equipe -->
       <div>
-        <p class="section-title" style="margin-top: 1rem;">🏆 Placar da Guerra</p>
+        <p class="section-title" style="margin-top:1rem;">🏆 Placar da Guerra</p>
         <div class="pontuacao-grid" id="placarEquipes"></div>
       </div>
     </div>
@@ -716,13 +724,13 @@
 
 <script>
   (function() {
-    // ---------- DADOS DAS EQUIPES (mantidos) ----------
+    // ---------- DADOS DAS EQUIPES COM IMAGENS ----------
     const teamDetails = [
-      { name: "Mascarados", lore: "Os Mascarados foram a equipe mais versátil do Orcatombe — diplomatas, estrategistas, mas brutais quando necessário.", personality: "Adaptáveis, estrategistas, empáticos.", vendas: "Design de Gamificação", abordagem: "Cada membro usa uma 'máscara' diferente na prospecção. Uma vez por semana, ativam o poder 'Máscaras': naquele dia, leads convertidos dão +3 PE extra.", poder: "Máscaras (1x/semana): leads convertidos no dia dão +3 PE bônus." },
-      { name: "PSIKOLERA", lore: "A banda ocultista foi caótica e energética. Criaram armadilhas e shows como tributo.", personality: "Caóticos, criativos, leais.", vendas: "Design de Gamificação", abordagem: "Cada membro tem um 'instrumento' (canal). Quando todos prospectam o mesmo segmento no dia, ganham +2 PE por lead daquele segmento.", poder: "Ataque combinado: se todos prospectarem mesmo segmento, +2 PE/lead do segmento." },
-      { name: "Couraças", lore: "Os Couraças eram poderosos e organizados, mas se fecharam demais em sua fortaleza.", personality: "Organizados, metódicos.", vendas: "Landing Page Gamificada", abordagem: "Focam em volume com qualidade: cada prospecção com material de apoio. Se não tiverem Desertor no ciclo, ficam imunes a Pássaro por 2 dias.", poder: "Fortaleza: sem Desertor no ciclo → imunidade a Pássaro (2 dias)." },
-      { name: "Vampiros", lore: "Calculistas e pacientes, atacavam no momento certo. Implacáveis.", personality: "Pacientes, calculistas.", vendas: "Landing Page Gamificada", abordagem: "Fazem menos prospecções, mas mais qualificadas. Se resgatarem um Desertor, o resgatado dobra PE por 1 dia.", poder: "Resgate: ao resgatar Desertor, ele dobra PE por 1 dia." },
-      { name: "Transtornados", lore: "Giovanni e os Transtornados sabiam de tudo. Informação era poder.", personality: "Inteligentes, estrategistas.", vendas: "Disputa os dois produtos", abordagem: "Mantêm diário de batalha. Se tiverem a maior taxa de conversão do ciclo, podem roubar 5 PE de qualquer equipe.", poder: "Roubo de Essência: maior conversão → rouba 5 PE." }
+      { name: "Mascarados", img: "https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg", lore: "Os Mascarados foram a equipe mais versátil do Orcatombe.", personality: "Adaptáveis, estrategistas.", vendas: "Design de Gamificação", abordagem: "Cada membro usa uma 'máscara'. 1x/semana: leads convertidos dão +3 PE extra.", poder: "Máscaras: +3 PE por lead convertido no dia." },
+      { name: "PSIKOLERA", img: "https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br", lore: "A banda ocultista foi caótica e energética.", personality: "Caóticos, criativos.", vendas: "Design de Gamificação", abordagem: "Quando todos prospectam mesmo segmento, +2 PE/lead do segmento.", poder: "Ataque combinado: +2 PE/lead do segmento." },
+      { name: "Couraças", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br", lore: "Os Couraças eram organizados e blindados.", personality: "Metódicos.", vendas: "Landing Page Gamificada", abordagem: "Sem Desertor no ciclo → imunidade a Pássaro por 2 dias.", poder: "Fortaleza: imunidade a Pássaro (2 dias)." },
+      { name: "Vampiros", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br", lore: "Calculistas e pacientes, atacavam no momento certo.", personality: "Pacientes.", vendas: "Landing Page Gamificada", abordagem: "Resgatar Desertor: resgatado dobra PE por 1 dia.", poder: "Resgate dobra PE do Desertor." },
+      { name: "Transtornados", img: "https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br", lore: "Informação era poder. Sabiam de tudo.", personality: "Inteligentes.", vendas: "Disputa os dois", abordagem: "Maior conversão → rouba 5 PE de qualquer equipe.", poder: "Roubo de Essência: 5 PE." }
     ];
 
     window.selectTeam = function(i) {
@@ -731,71 +739,45 @@
         c.style.borderWidth = '';
         c.classList.remove('selected');
       });
-      const cards = document.querySelectorAll('.team-card');
-      const card = cards[i];
+      const card = document.querySelectorAll('.team-card')[i];
       card.classList.add('selected');
-      card.style.borderColor = '#A32D2D';
+      card.style.borderColor = '#3fcc10';
       card.style.borderWidth = '2px';
 
       const t = teamDetails[i];
       const detailDiv = document.getElementById('team-detail-content');
-      if (detailDiv) {
-        detailDiv.innerHTML = `
-          <div style="font-size:12px; font-weight:600; color:#b78c7c; margin-bottom:10px; letter-spacing:0.1em;">${t.name}</div>
-          <p style="font-size:14px; color: var(--color-text-secondary); margin-bottom:16px; line-height:1.6;">${t.lore}</p>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-            <div><div style="font-size:11px; color:#9e8a80;">Personalidade</div><div style="font-size:14px;">${t.personality}</div></div>
-            <div><div style="font-size:11px; color:#9e8a80;">Produto</div><div style="font-size:14px;">${t.vendas}</div></div>
-          </div>
-          <div style="margin-bottom:12px;"><div style="font-size:11px; color:#9e8a80;">Abordagem de prospecção</div><div style="font-size:14px; line-height:1.6;">${t.abordagem}</div></div>
-          <div style="background:#1c1212; border-left:4px solid #A32D2D; padding:10px 14px; border-radius:0 8px 8px 0;">
-            <div style="font-size:11px; color:#c4a099;">Poder especial</div>
-            <div style="font-size:14px;">${t.poder}</div>
-          </div>
-        `;
-      }
+      detailDiv.innerHTML = `
+        <div class="team-detail-header">
+          <img class="team-detail-img" src="${t.img}" alt="${t.name}" onerror="this.src='https://placehold.co/120x120/0e1a0e/3fcc10?text=${t.name}'">
+          <div style="font-size:14px; font-weight:600; color:#b0e0a0;">${t.name}</div>
+        </div>
+        <p style="font-size:14px; color: var(--color-text-secondary); margin-bottom:16px;">${t.lore}</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div><div style="font-size:11px;">Personalidade</div><div>${t.personality}</div></div>
+          <div><div style="font-size:11px;">Produto</div><div>${t.vendas}</div></div>
+        </div>
+        <div><div style="font-size:11px;">Abordagem</div><div>${t.abordagem}</div></div>
+        <div style="background:#0e1a0e; border-left:4px solid #3fcc10; padding:10px; margin-top:12px;">
+          <div style="font-size:11px;">Poder especial</div><div>${t.poder}</div>
+        </div>
+      `;
     };
 
     window.showPanel = function(id, ev) {
       if (ev) ev.preventDefault();
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      const panel = document.getElementById(id);
-      if (panel) panel.classList.add('active');
-      const tabs = document.querySelectorAll('.tab');
-      const activeTab = Array.from(tabs).find(t => 
-        t.textContent.toLowerCase().includes(id.toLowerCase()) || 
-        (id==='equipes' && t.textContent.includes('equipes')) ||
-        (id==='mecanicas' && t.textContent.includes('Mecânicas')) ||
-        (id==='pontos' && t.textContent.includes('Pontos')) ||
-        (id==='papeis' && t.textContent.includes('Papéis')) ||
-        (id==='cronologia' && t.textContent.includes('Fases')) ||
-        (id==='registro' && t.textContent.includes('Registro'))
-      );
+      document.getElementById(id).classList.add('active');
+      const activeTab = Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.toLowerCase().includes(id.toLowerCase()));
       if (activeTab) activeTab.classList.add('active');
       if (id === 'registro') atualizarTabelaEPontuacao();
     };
 
-    // ---------- PLANILHA DE LEADS E PONTUAÇÃO ----------
-    let leads = [];
+    // ---------- PLANILHA ZERADA ----------
+    let leads = []; // Começa vazio
     const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
 
-    // Recuperar do localStorage se existir
-    if (localStorage.getItem('leadsOrcatombe')) {
-      leads = JSON.parse(localStorage.getItem('leadsOrcatombe'));
-    } else {
-      // Dados iniciais de exemplo
-      leads = [
-        { data: '2026-04-16', equipe: 'Mascarados', membro: 'Ana', lead: 'João Silva', empresa: 'TechCorp', canal: 'Ligação', status: 'contatado', pontos: 1 },
-        { data: '2026-04-16', equipe: 'PSIKOLERA', membro: 'Eloy', lead: 'Mariana', empresa: 'Inova', canal: 'WhatsApp', status: 'reuniao', pontos: 5 },
-        { data: '2026-04-15', equipe: 'Couraças', membro: 'Carlos', lead: 'Pedro', empresa: 'BuildX', canal: 'Email', status: 'proposta', pontos: 10 },
-      ];
-    }
-
-    function salvarLeads() {
-      localStorage.setItem('leadsOrcatombe', JSON.stringify(leads));
-    }
-
+    function salvarLeads() { localStorage.setItem('leadsOrcatombe', JSON.stringify(leads)); }
     function calcularPontos(status) {
       switch(status) {
         case 'contatado': return 1;
@@ -807,141 +789,69 @@
     }
 
     window.adicionarLead = function() {
-      const data = document.getElementById('leadData').value;
+      const data = document.getElementById('leadData').value || new Date().toISOString().slice(0,10);
       const equipe = document.getElementById('leadEquipe').value;
       const membro = document.getElementById('leadMembro').value.trim();
       const leadNome = document.getElementById('leadNome').value.trim();
       const empresa = document.getElementById('leadEmpresa').value.trim();
       const canal = document.getElementById('leadCanal').value;
       const status = document.getElementById('leadStatus').value;
-      
-      if (!membro || !leadNome) { alert('Preencha membro e nome do lead!'); return; }
-      
+      if (!membro || !leadNome) { alert('Preencha membro e lead!'); return; }
       const pontos = calcularPontos(status);
-      const novoLead = { data, equipe, membro, lead: leadNome, empresa, canal, status, pontos };
-      leads.push(novoLead);
+      leads.push({ data, equipe, membro, lead: leadNome, empresa, canal, status, pontos });
       salvarLeads();
       atualizarTabelaEPontuacao();
-      
-      // Limpar campos
       document.getElementById('leadMembro').value = '';
       document.getElementById('leadNome').value = '';
       document.getElementById('leadEmpresa').value = '';
     };
 
-    function removerLead(index) {
-      leads.splice(index, 1);
-      salvarLeads();
-      atualizarTabelaEPontuacao();
-    }
+    function removerLead(index) { leads.splice(index,1); salvarLeads(); atualizarTabelaEPontuacao(); }
+    window.removerLead = removerLead;
 
     function atualizarTabelaEPontuacao() {
       const tbody = document.getElementById('leadsBody');
       tbody.innerHTML = '';
       leads.forEach((l, idx) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td>
-          <td>${l.status}</td><td>${l.pontos}</td>
-          <td><button class="btn small" onclick="removerLead(${idx})" style="padding:2px 8px;">🗑️</button></td>
-        `;
+        tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${l.status}</td><td>${l.pontos}</td><td><button class="btn small" onclick="removerLead(${idx})">🗑️</button></td>`;
         tbody.appendChild(tr);
       });
-      
-      // Calcular pontuação por equipe
       const pontosPorEquipe = {};
       equipes.forEach(e => pontosPorEquipe[e] = 0);
       leads.forEach(l => { pontosPorEquipe[l.equipe] += l.pontos; });
-      
-      const placarDiv = document.getElementById('placarEquipes');
       const maxPontos = Math.max(...Object.values(pontosPorEquipe));
-      placarDiv.innerHTML = equipes.map(eq => {
-        const pontos = pontosPorEquipe[eq];
-        return `
-          <div class="pontuacao-card">
-            <h4>${eq}</h4>
-            <div class="score">${pontos}</div>
-            ${pontos === maxPontos && maxPontos > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}
-          </div>
-        `;
+      document.getElementById('placarEquipes').innerHTML = equipes.map(eq => {
+        const pts = pontosPorEquipe[eq];
+        return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === maxPontos && maxPontos > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
       }).join('');
     }
 
-    // Ações especiais
-    window.aplicarEstigma = function() {
-      const equipe = document.getElementById('leadEquipe').value;
-      const bônus = 15;
-      leads.push({
-        data: new Date().toISOString().slice(0,10),
-        equipe: equipe,
-        membro: '✨ ESTIGMA',
-        lead: 'Ativação de Estigma',
-        empresa: '-',
-        canal: 'Especial',
-        status: 'estigma',
-        pontos: bônus
-      });
-      salvarLeads();
-      atualizarTabelaEPontuacao();
+    window.aplicarEstigma = () => {
+      const eq = document.getElementById('leadEquipe').value;
+      leads.push({ data: new Date().toISOString().slice(0,10), equipe: eq, membro: '✨ ESTIGMA', lead: 'Ativação', empresa: '-', canal: 'Especial', status: 'estigma', pontos: 15 });
+      salvarLeads(); atualizarTabelaEPontuacao();
     };
-
-    window.registrarDesertor = function() {
-      const equipe = document.getElementById('leadEquipe').value;
-      // Penalidade: -3 para ações do desertor, mas aqui simulamos -3 no total da equipe
-      leads.push({
-        data: new Date().toISOString().slice(0,10),
-        equipe: equipe,
-        membro: '⚠️ DESERTOR',
-        lead: 'Penalidade por Desertor',
-        empresa: '-',
-        canal: 'Penalidade',
-        status: 'desertor',
-        pontos: -3
-      });
-      salvarLeads();
-      atualizarTabelaEPontuacao();
+    window.registrarDesertor = () => {
+      const eq = document.getElementById('leadEquipe').value;
+      leads.push({ data: new Date().toISOString().slice(0,10), equipe: eq, membro: '⚠️ DESERTOR', lead: 'Penalidade', empresa: '-', canal: 'Penalidade', status: 'desertor', pontos: -3 });
+      salvarLeads(); atualizarTabelaEPontuacao();
     };
-
-    window.tocarSino = function() {
-      const equipeFechou = document.getElementById('leadEquipe').value;
-      // Equipe que fechou ganha +30 (já considerado no status "fechado" se adicionado manualmente)
-      // Aqui aplicamos o efeito do Sino: +5 para quem fechou e -5 para as outras.
+    window.tocarSino = () => {
+      const fechou = document.getElementById('leadEquipe').value;
       equipes.forEach(eq => {
-        const pontos = (eq === equipeFechou) ? 5 : -5;
-        leads.push({
-          data: new Date().toISOString().slice(0,10),
-          equipe: eq,
-          membro: '🔔 SINO',
-          lead: `Efeito do Sino (${eq === equipeFechou ? 'fechou' : 'perdeu'})`,
-          empresa: '-',
-          canal: 'Especial',
-          status: 'sino',
-          pontos: pontos
-        });
+        leads.push({ data: new Date().toISOString().slice(0,10), equipe: eq, membro: '🔔 SINO', lead: eq === fechou ? 'fechou' : 'perdeu', empresa: '-', canal: 'Especial', status: 'sino', pontos: eq === fechou ? 5 : -5 });
       });
-      salvarLeads();
-      atualizarTabelaEPontuacao();
+      salvarLeads(); atualizarTabelaEPontuacao();
     };
+    window.resetarPlanilha = () => { if(confirm('Limpar registros?')) { leads = []; salvarLeads(); atualizarTabelaEPontuacao(); } };
 
-    window.resetarPlanilha = function() {
-      if (confirm('Limpar todos os registros de leads?')) {
-        leads = [];
-        salvarLeads();
-        atualizarTabelaEPontuacao();
-      }
-    };
-
-    // Inicialização
     window.addEventListener('DOMContentLoaded', () => {
       selectTeam(0);
-      if (document.getElementById('registro').classList.contains('active')) {
-        atualizarTabelaEPontuacao();
-      }
+      const hoje = new Date().toISOString().slice(0,10);
+      document.getElementById('leadData').value = hoje;
+      if (document.getElementById('registro').classList.contains('active')) atualizarTabelaEPontuacao();
     });
-
-    // Expor funções globais
-    window.atualizarTabelaEPontuacao = atualizarTabelaEPontuacao;
-    window.removerLead = removerLead;
   })();
 </script>
 </body>
