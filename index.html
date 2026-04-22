@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Estado de Guerra — Orc'estra · Orcatombe</title>
+  <!-- Fontes rituais -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <!-- Firebase SDK -->
   <script type="module">
+    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyD7-va8PJJVsVe52P6rfjhRq7LmHenJTu4",
       authDomain: "orcatombe.firebaseapp.com",
@@ -29,10 +31,10 @@
 
     window.firebaseReady = true;
     window.firebaseDB = { database, leadsRef, push, remove, update, ref, onValue };
-    console.log('🔥 Firebase inicializado.');
+    console.log('🔥 Firebase inicializado. Pronto para o Orcatombe.');
   </script>
   <style>
-    /* ===== ESTILOS COMPLETOS (mantidos do anterior) ===== */
+    /* ===== ESTILOS COMPLETOS (MANTIDOS DO SEU ARQUIVO ORIGINAL) ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --font-sans: 'Inter', system-ui, sans-serif;
@@ -258,7 +260,7 @@
     <button class="tab" onclick="showPanel('registro', event)">Registro & Pontuação</button>
   </div>
 
-  <!-- PAINEL EQUIPES -->
+  <!-- PAINEL EQUIPES (CONTEÚDO COMPLETO) -->
   <div id="equipes" class="panel active">
     <div class="passaros-warning">
       <h3>Os Pássaros — memória dos que tombaram</h3>
@@ -266,6 +268,7 @@
     </div>
     <p class="section-title">Escolha uma equipe para conhecer</p>
     <div class="teams-grid" id="teams-grid">
+      <!-- Cards das equipes com imagens e descrições -->
       <div class="team-card selected" onclick="selectTeam(0)"><img class="team-img" src="https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg" alt="Mascarados" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Mascarados'"><div class="card-content"><div class="icon">🎭</div><h3>Mascarados</h3><div class="subtitle">Agentes da Ordem. Diplomatas e estrategistas.</div><span class="product-badge">Design de Gamificação</span><div class="tagline">"Cada máscara revela uma intenção."</div></div></div>
       <div class="team-card" onclick="selectTeam(1)"><img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br" alt="PSIKOLERA" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=PSIKOLERA'"><div class="card-content"><div class="icon">🎸</div><h3>PSIKOLERA</h3><div class="subtitle">Banda ocultista. Caóticos e energéticos.</div><span class="product-badge">Design de Gamificação</span><div class="tagline">"Sem a máscara somos outros. Com ela, somos imparáveis."</div></div></div>
       <div class="team-card" onclick="selectTeam(2)"><img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br" alt="Couraças" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Couraças'"><div class="card-content"><div class="icon">⚙️</div><h3>Couraças</h3><div class="subtitle">Cultistas blindados. Constroem fortalezas.</div><span class="product-badge">Landing Page Gamificada</span><div class="tagline">"Nossa armadura é nossa metodologia."</div></div></div>
@@ -275,7 +278,7 @@
     <div id="team-detail"><div id="team-detail-content"></div></div>
   </div>
 
-  <!-- PAINEL MECÂNICAS -->
+  <!-- PAINEL MECÂNICAS (COMPLETO) -->
   <div id="mecanicas" class="panel">
     <p class="section-title">O ritual transposto para vendas</p>
     <div class="mechanics-grid">
@@ -299,7 +302,7 @@
     </div>
   </div>
 
-  <!-- PAINEL PONTOS -->
+  <!-- PAINEL PONTOS (COMPLETO) -->
   <div id="pontos" class="panel">
     <p class="section-title">Sistema de pontos de essência (PE)</p>
     <p style="font-size:14px; color:var(--color-text-secondary); margin-bottom:1.8rem;">Pontos de Essência são o sangue do Orcatombe.</p>
@@ -330,7 +333,7 @@
     </div>
   </div>
 
-  <!-- PAINEL PAPÉIS -->
+  <!-- PAINEL PAPÉIS (COMPLETO) -->
   <div id="papeis" class="panel">
     <p class="section-title">Os papéis sagrados</p>
     <div class="role-grid">
@@ -349,7 +352,7 @@
     </div>
   </div>
 
-  <!-- PAINEL CRONOLOGIA -->
+  <!-- PAINEL CRONOLOGIA (COMPLETO) -->
   <div id="cronologia" class="panel">
     <p class="section-title">Fases da Guerra — até o contrato</p>
     <div class="timeline">
@@ -361,7 +364,7 @@
     </div>
   </div>
 
-  <!-- PAINEL REGISTRO -->
+  <!-- PAINEL REGISTRO & PONTUAÇÃO (COM ADMIN E BÔNUS DE COTA) -->
   <div id="registro" class="panel">
     <p class="section-title">📜 Registro dos Leads — Planilha do Orcatombe (Tempo Real)</p>
     <div class="registro-container">
@@ -404,158 +407,256 @@
 </div>
 
 <script>
-  // Dados das equipes
-  const teamDetails = [
-    { name: "Mascarados", img: "https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg", lore: "Agentes da Ordo Realitas infiltrados entre as sombras do mercado, os Mascarados trocam de persona conforme o prospecto exige. Diplomatas natos, sabem exatamente quando avançar, recuar ou firmar uma aliança.", personality: "Adaptáveis, estrategistas.", vendas: "Design de Gamificação", abordagem: "Cada membro usa uma 'máscara'. 1x/semana: leads convertidos dão +3 PE extra.", poder: "Máscaras: +3 PE por lead convertido no dia." },
-    { name: "PSIKOLERA", img: "https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br", lore: "Caóticos, barulhentos e absolutamente imprevisíveis, a PSIKOLERA é a banda ocultista que transforma prospecção em espetáculo.", personality: "Caóticos, criativos.", vendas: "Design de Gamificação", abordagem: "Quando todos prospectam mesmo segmento, +2 PE/lead do segmento.", poder: "Ataque combinado: +2 PE/lead do segmento." },
-    { name: "Couraças", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br", lore: "Blindados por uma metodologia de ferro, os Couraças constroem fortalezas antes mesmo de partir para o ataque.", personality: "Metódicos.", vendas: "Landing Page Gamificada", abordagem: "Sem Desertor no ciclo → imunidade a Pássaro por 2 dias.", poder: "Fortaleza: imunidade a Pássaro (2 dias)." },
-    { name: "Vampiros", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br", lore: "Pacientes como a noite eterna, os Vampiros não desperdiçam uma única gota de energia. Calculistas e metódicos.", personality: "Pacientes.", vendas: "Landing Page Gamificada", abordagem: "Resgatar Desertor: resgatado dobra PE por 1 dia.", poder: "Resgate dobra PE do Desertor." },
-    { name: "Transtornados", img: "https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br", lore: "Giovanni e seus seguidores compreenderam que a verdadeira arma é a informação.", personality: "Inteligentes.", vendas: "Disputa os dois", abordagem: "Maior conversão → rouba 5 PE de qualquer equipe.", poder: "Roubo de Essência: 5 PE." }
-  ];
+  // Dados das equipes (com descrições completas)
+  // ========== DADOS DAS EQUIPES (UI) ==========
+const teamDetails = [
+  { name: "Mascarados", img: "https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg", lore: "Agentes da Ordo Realitas infiltrados entre as sombras do mercado, os Mascarados trocam de persona conforme o prospecto exige. Diplomatas natos, sabem exatamente quando avançar, recuar ou firmar uma aliança. Sua maior força está na versatilidade: cada membro veste uma 'máscara' diferente e ativa o poder do Desejo para multiplicar os frutos das conversões.", personality: "Adaptáveis, estrategistas.", vendas: "Design de Gamificação", abordagem: "Cada membro usa uma 'máscara'. 1x/semana: leads convertidos dão +3 PE extra.", poder: "Máscaras: +3 PE por lead convertido no dia." },
+  { name: "PSIKOLERA", img: "https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br", lore: "Caóticos, barulhentos e absolutamente imprevisíveis, a PSIKOLERA é a banda ocultista que transforma prospecção em espetáculo. Cada integrante domina um 'instrumento' e quando todos atacam o mesmo segmento no mesmo dia, o ritual da Ira se manifesta, amplificando cada lead conquistado.", personality: "Caóticos, criativos.", vendas: "Design de Gamificação", abordagem: "Quando todos prospectam mesmo segmento, +2 PE/lead do segmento.", poder: "Ataque combinado: +2 PE/lead do segmento." },
+  { name: "Couraças", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br", lore: "Blindados por uma metodologia de ferro, os Couraças constroem fortalezas antes mesmo de partir para o ataque. Cada prospecção é precedida por um material de apoio sólido. Sob o estigma da Obsessão, enquanto nenhum membro tombar como Desertor, a equipe permanece imune ao efeito Pássaro.", personality: "Metódicos.", vendas: "Landing Page Gamificada", abordagem: "Sem Desertor no ciclo → imunidade a Pássaro por 2 dias.", poder: "Fortaleza: imunidade a Pássaro (2 dias)." },
+  { name: "Vampiros", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br", lore: "Pacientes como a noite eterna, os Vampiros não desperdiçam uma única gota de energia. Calculistas e metódicos, estudam o ICP à exaustão antes do primeiro contato. O estigma da Culpa os torna protetores dos caídos: ao resgatar um Desertor, o membro redimido sangra o dobro de pontos por um dia.", personality: "Pacientes.", vendas: "Landing Page Gamificada", abordagem: "Resgatar Desertor: resgatado dobra PE por 1 dia.", poder: "Resgate dobra PE do Desertor." },
+  { name: "Transtornados", img: "https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br", lore: "Giovanni e seus seguidores compreenderam que a verdadeira arma é a informação. Os Transtornados mantêm diários de batalha detalhados e conhecem os pontos fracos de todos. Seu estigma, o Orgulho, coroa a equipe com a maior taxa de conversão, permitindo-lhes drenar pontos de essência de qualquer adversário.", personality: "Inteligentes.", vendas: "Disputa os dois", abordagem: "Maior conversão → rouba 5 PE de qualquer equipe.", poder: "Roubo de Essência: 5 PE." }
+];
 
-  window.selectTeam = function(i) {
-    document.querySelectorAll('.team-card').forEach((c, idx) => {
-      c.style.borderColor = '';
-      c.style.borderWidth = '';
-      c.classList.remove('selected');
-    });
-    const card = document.querySelectorAll('.team-card')[i];
-    card.classList.add('selected');
-    card.style.borderColor = '#3fcc10';
-    card.style.borderWidth = '2px';
-    const t = teamDetails[i];
-    document.getElementById('team-detail-content').innerHTML = `
-      <div class="team-detail-header">
-        <img class="team-detail-img" src="${t.img}" alt="${t.name}" onerror="this.src='https://placehold.co/120x120/0e1a0e/3fcc10?text=${t.name}'">
-        <div style="font-size:14px; font-weight:600; color:#b0e0a0;">${t.name}</div>
-      </div>
-      <p style="font-size:14px; color: var(--color-text-secondary); margin-bottom:16px;">${t.lore}</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-        <div><div style="font-size:11px;">Personalidade</div><div>${t.personality}</div></div>
-        <div><div style="font-size:11px;">Produto</div><div>${t.vendas}</div></div>
-      </div>
-      <div><div style="font-size:11px;">Abordagem</div><div>${t.abordagem}</div></div>
-      <div style="background:#0e1a0e; border-left:4px solid #3fcc10; padding:10px; margin-top:12px;">
-        <div style="font-size:11px;">Poder especial</div><div>${t.poder}</div>
-      </div>
-    `;
-  };
-
-  window.showPanel = function(id, ev) {
-    if (ev) ev.preventDefault();
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    const activeTab = Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.toLowerCase().includes(id.toLowerCase()));
-    if (activeTab) activeTab.classList.add('active');
-  };
-
-  // Admin
-  let isAdmin = false;
-  const ADMIN_PASSWORD = "direx26";
-  window.loginAdmin = function() {
-    if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
-      isAdmin = true;
-      document.getElementById('btnLimparTudo').style.display = 'inline-block';
-      document.getElementById('adminActionHeader').style.display = 'table-cell';
-      atualizarTabelaEPontuacao();
-      alert('✅ Modo administrador ativado.');
-    } else alert('Senha incorreta.');
-  };
-
-  // Firebase + funções principais
-  window.addEventListener('load', () => {
-    document.getElementById('leadData').value = new Date().toISOString().slice(0,10);
-    selectTeam(0);
-    if (!window.firebaseReady) return;
-
-    const { database, leadsRef, push, remove, update, ref, onValue } = window.firebaseDB;
-    const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
-
-    onValue(ref(database, '.info/connected'), (snap) => {
-      const el = document.getElementById('connectionStatus');
-      el.innerHTML = snap.val() ? '🟢 Conectado (tempo real)' : '🔴 Desconectado';
-      el.className = 'status-indicator ' + (snap.val() ? 'connected' : 'disconnected');
-    });
-
-    onValue(leadsRef, (snap) => {
-      const leads = [];
-      snap.forEach(c => leads.push({ id: c.key, ...c.val() }));
-      window.leadsData = leads;
-      atualizarTabelaEPontuacao();
-    });
-
-    function calcularPontosComCota(status, equipe, membro, data) {
-      if (status !== 'contatado') {
-        if (status === 'reuniao') return 5;
-        if (status === 'proposta') return 10;
-        if (status === 'fechado') return 30;
-        return 0;
-      }
-      const contatos = (window.leadsData || []).filter(l => l.equipe === equipe && l.membro === membro && l.data === data && l.status === 'contatado').length;
-      return contatos >= 6 ? 3 : 1;
-    }
-
-    window.adicionarLead = () => {
-      const data = document.getElementById('leadData').value || new Date().toISOString().slice(0,10);
-      const equipe = document.getElementById('leadEquipe').value;
-      const membro = document.getElementById('leadMembro').value.trim();
-      const leadNome = document.getElementById('leadNome').value.trim();
-      const empresa = document.getElementById('leadEmpresa').value.trim();
-      const canal = document.getElementById('leadCanal').value;
-      const status = document.getElementById('leadStatus').value;
-      if (!membro || !leadNome) { alert('Preencha membro e lead!'); return; }
-      const pontos = calcularPontosComCota(status, equipe, membro, data);
-      push(leadsRef, { data, equipe, membro, lead: leadNome, empresa, canal, status, pontos });
-      document.getElementById('leadMembro').value = '';
-      document.getElementById('leadNome').value = '';
-      document.getElementById('leadEmpresa').value = '';
-    };
-
-    window.removerLead = (id) => { if (isAdmin) remove(ref(database, `leads/${id}`)); };
-    window.atualizarPontosLead = (id, val) => {
-      if (!isAdmin) return;
-      const pontos = parseInt(val, 10);
-      if (!isNaN(pontos)) update(ref(database, `leads/${id}`), { pontos });
-    };
-
-    window.aplicarEstigma = () => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: document.getElementById('leadEquipe').value, membro: '✨ ESTIGMA', lead: 'Ativação de Estigma', empresa: '-', canal: 'Especial', status: 'estigma', pontos: 15 });
-    window.registrarDesertor = () => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: document.getElementById('leadEquipe').value, membro: '⚠️ DESERTOR', lead: 'Penalidade por Desertor', empresa: '-', canal: 'Penalidade', status: 'desertor', pontos: -3 });
-    window.tocarSino = () => {
-      const fechou = document.getElementById('leadEquipe').value;
-      equipes.forEach(eq => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: eq, membro: '🔔 SINO', lead: eq === fechou ? 'fechou' : 'perdeu', empresa: '-', canal: 'Especial', status: 'sino', pontos: eq === fechou ? 5 : -5 }));
-    };
-    window.resetarPlanilha = () => {
-      if (!isAdmin) { alert('Apenas administradores.'); return; }
-      if (!confirm('Apagar TODOS os leads?')) return;
-      const updates = {};
-      window.leadsData.forEach(l => { updates[`leads/${l.id}`] = null; });
-      update(ref(database), updates);
-    };
-
-    function atualizarTabelaEPontuacao() {
-      const leads = window.leadsData || [];
-      const tbody = document.getElementById('leadsBody');
-      tbody.innerHTML = '';
-      leads.forEach(l => {
-        const tr = document.createElement('tr');
-        let acao = '';
-        if (isAdmin) acao = `<td><button class="btn small" onclick="removerLead('${l.id}')">🗑️</button> <input class="editable-points" type="number" value="${l.pontos}" onchange="atualizarPontosLead('${l.id}', this.value)"></td>`;
-        tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${l.status}</td><td>${l.pontos}</td>${acao}`;
-        tbody.appendChild(tr);
-      });
-      document.getElementById('adminActionHeader').style.display = isAdmin ? 'table-cell' : 'none';
-      const pontosPorEquipe = {};
-      equipes.forEach(e => pontosPorEquipe[e] = 0);
-      leads.forEach(l => { if (equipes.includes(l.equipe)) pontosPorEquipe[l.equipe] += l.pontos; });
-      const max = Math.max(...Object.values(pontosPorEquipe));
-      document.getElementById('placarEquipes').innerHTML = equipes.map(eq => {
-        const pts = pontosPorEquipe[eq];
-        return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === max && max > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
-      }).join('');
-    }
-    window.atualizarTabelaEPontuacao = atualizarTabelaEPontuacao;
+window.selectTeam = function (i) {
+  document.querySelectorAll('.team-card').forEach((c, idx) => {
+    c.style.borderColor = '';
+    c.style.borderWidth = '';
+    c.classList.remove('selected');
   });
+  const card = document.querySelectorAll('.team-card')[i];
+  card.classList.add('selected');
+  card.style.borderColor = '#3fcc10';
+  card.style.borderWidth = '2px';
+
+  const t = teamDetails[i];
+  const detailDiv = document.getElementById('team-detail-content');
+  detailDiv.innerHTML = `
+    <div class="team-detail-header">
+      <img class="team-detail-img" src="${t.img}" alt="${t.name}" onerror="this.src='https://placehold.co/120x120/0e1a0e/3fcc10?text=${t.name}'">
+      <div style="font-size:14px; font-weight:600; color:#b0e0a0;">${t.name}</div>
+    </div>
+    <p style="font-size:14px; color: var(--color-text-secondary); margin-bottom:16px;">${t.lore}</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+      <div><div style="font-size:11px;">Personalidade</div><div>${t.personality}</div></div>
+      <div><div style="font-size:11px;">Produto</div><div>${t.vendas}</div></div>
+    </div>
+    <div><div style="font-size:11px;">Abordagem</div><div>${t.abordagem}</div></div>
+    <div style="background:#0e1a0e; border-left:4px solid #3fcc10; padding:10px; margin-top:12px;">
+      <div style="font-size:11px;">Poder especial</div><div>${t.poder}</div>
+    </div>
+  `;
+};
+
+window.showPanel = function (id, ev) {
+  if (ev) ev.preventDefault();
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const activeTab = Array.from(tabs).find(t => t.textContent.toLowerCase().includes(id.toLowerCase()));
+  if (activeTab) activeTab.classList.add('active');
+  if (id === 'registro' && window.firebaseReady) {
+    atualizarTabelaEPontuacao();
+  }
+};
+
+// ========== ADMIN ==========
+let isAdmin = false;
+const ADMIN_PASSWORD = "direx26";
+
+window.loginAdmin = function() {
+  const pwd = document.getElementById('adminPassword').value;
+  if (pwd === ADMIN_PASSWORD) {
+    isAdmin = true;
+    document.getElementById('btnLimparTudo').style.display = 'inline-block';
+    document.getElementById('adminActionHeader').style.display = 'table-cell';
+    atualizarTabelaEPontuacao();
+    alert('✅ Modo administrador ativado.');
+  } else {
+    alert('Senha incorreta.');
+  }
+};
+
+// ========== FIREBASE + LÓGICA ==========
+window.addEventListener('load', () => {
+  document.getElementById('leadData').value = new Date().toISOString().slice(0, 10);
+  selectTeam(0);
+
+  if (!window.firebaseReady) {
+    document.getElementById('connectionStatus').innerHTML = '❌ Firebase não configurado.';
+    return;
+  }
+
+  const { database, leadsRef, push, remove, update, ref, onValue } = window.firebaseDB;
+  const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
+
+  const connectedRef = ref(database, '.info/connected');
+  onValue(connectedRef, (snap) => {
+    const statusEl = document.getElementById('connectionStatus');
+    if (snap.val() === true) {
+      statusEl.innerHTML = '🟢 Conectado (tempo real)';
+      statusEl.className = 'status-indicator connected';
+    } else {
+      statusEl.innerHTML = '🔴 Desconectado';
+      statusEl.className = 'status-indicator disconnected';
+    }
+  });
+
+  // Listener dos leads
+  onValue(leadsRef, (snapshot) => {
+    const leads = [];
+    snapshot.forEach((child) => {
+      leads.push({ id: child.key, ...child.val() });
+    });
+    window.leadsData = leads;
+    atualizarTabelaEPontuacao();
+  });
+
+  // Função para calcular pontos COM BÔNUS DE COTA
+  function calcularPontosComCota(status, equipe, membro, data) {
+    if (status !== 'contatado') {
+      if (status === 'reuniao') return 5;
+      if (status === 'proposta') return 10;
+      if (status === 'fechado') return 30;
+      return 0;
+    }
+    const leads = window.leadsData || [];
+    const contatosNoDia = leads.filter(l => 
+      l.equipe === equipe && 
+      l.membro === membro && 
+      l.data === data && 
+      l.status === 'contatado'
+    ).length;
+    // Se já existem 6 ou mais contatos, o próximo ganha +2 de bônus (total 3)
+    return contatosNoDia >= 6 ? 3 : 1;
+  }
+
+  window.adicionarLead = () => {
+    const data = document.getElementById('leadData').value || new Date().toISOString().slice(0, 10);
+    const equipe = document.getElementById('leadEquipe').value;
+    const membro = document.getElementById('leadMembro').value.trim();
+    const leadNome = document.getElementById('leadNome').value.trim();
+    const empresa = document.getElementById('leadEmpresa').value.trim();
+    const canal = document.getElementById('leadCanal').value;
+    const status = document.getElementById('leadStatus').value;
+
+    if (!membro || !leadNome) {
+      alert('Preencha membro e lead!');
+      return;
+    }
+
+    const pontos = calcularPontosComCota(status, equipe, membro, data);
+    push(leadsRef, { data, equipe, membro, lead: leadNome, empresa, canal, status, pontos });
+    
+    // Limpa campos
+    document.getElementById('leadMembro').value = '';
+    document.getElementById('leadNome').value = '';
+    document.getElementById('leadEmpresa').value = '';
+  };
+
+  window.removerLead = (id) => {
+    if (!isAdmin) return;
+    const leadRef = ref(database, `leads/${id}`);
+    remove(leadRef);
+  };
+
+  window.atualizarPontosLead = (id, novoValor) => {
+    if (!isAdmin) return;
+    const pontos = parseInt(novoValor, 10);
+    if (isNaN(pontos)) return;
+    const leadRef = ref(database, `leads/${id}`);
+    update(leadRef, { pontos });
+  };
+
+  window.aplicarEstigma = () => {
+    const eq = document.getElementById('leadEquipe').value;
+    push(leadsRef, {
+      data: new Date().toISOString().slice(0, 10),
+      equipe: eq,
+      membro: '✨ ESTIGMA',
+      lead: 'Ativação de Estigma',
+      empresa: '-',
+      canal: 'Especial',
+      status: 'estigma',
+      pontos: 15
+    });
+  };
+
+  window.registrarDesertor = () => {
+    const eq = document.getElementById('leadEquipe').value;
+    push(leadsRef, {
+      data: new Date().toISOString().slice(0, 10),
+      equipe: eq,
+      membro: '⚠️ DESERTOR',
+      lead: 'Penalidade por Desertor',
+      empresa: '-',
+      canal: 'Penalidade',
+      status: 'desertor',
+      pontos: -3
+    });
+  };
+
+  window.tocarSino = () => {
+    const fechou = document.getElementById('leadEquipe').value;
+    equipes.forEach(eq => {
+      push(leadsRef, {
+        data: new Date().toISOString().slice(0, 10),
+        equipe: eq,
+        membro: '🔔 SINO',
+        lead: eq === fechou ? 'fechou' : 'perdeu',
+        empresa: '-',
+        canal: 'Especial',
+        status: 'sino',
+        pontos: eq === fechou ? 5 : -5
+      });
+    });
+  };
+
+  window.resetarPlanilha = () => {
+    if (!isAdmin) {
+      alert('Apenas administradores podem limpar os registros.');
+      return;
+    }
+    if (!confirm('ATENÇÃO: Isso apagará TODOS os leads do Firebase para todos os usuários. Continuar?')) return;
+    const updates = {};
+    window.leadsData.forEach(l => { updates[`leads/${l.id}`] = null; });
+    update(ref(database), updates);
+  };
+
+  function atualizarTabelaEPontuacao() {
+    const leads = window.leadsData || [];
+    const tbody = document.getElementById('leadsBody');
+    tbody.innerHTML = '';
+    
+    leads.forEach(l => {
+      const tr = document.createElement('tr');
+      let acaoHtml = '';
+      if (isAdmin) {
+        acaoHtml = `<td>
+          <button class="btn small" onclick="removerLead('${l.id}')">🗑️</button>
+          <input type="number" class="editable-points" value="${l.pontos}" onchange="atualizarPontosLead('${l.id}', this.value)">
+        </td>`;
+      }
+      tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${l.status}</td><td>${l.pontos}</td>${acaoHtml}`;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('adminActionHeader').style.display = isAdmin ? 'table-cell' : 'none';
+
+    const pontosPorEquipe = {};
+    equipes.forEach(e => pontosPorEquipe[e] = 0);
+    leads.forEach(l => { if (equipes.includes(l.equipe)) pontosPorEquipe[l.equipe] += l.pontos; });
+    
+    const maxPontos = Math.max(...Object.values(pontosPorEquipe));
+    document.getElementById('placarEquipes').innerHTML = equipes.map(eq => {
+      const pts = pontosPorEquipe[eq];
+      return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === maxPontos && maxPontos > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
+    }).join('');
+  }
+
+  // Torna a função acessível globalmente
+  window.atualizarTabelaEPontuacao = atualizarTabelaEPontuacao;
+});
 </script>
 </body>
 </html>
