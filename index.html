@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Estado de Guerra — Orc'estra · Orcatombe</title>
-  <!-- Fontes rituais -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-  <!-- Firebase SDK (módulo) -->
+  <!-- Firebase SDK -->
   <script type="module">
-    // ========== CONFIGURAÇÃO DO FIREBASE (SUBSTITUA SE NECESSÁRIO) ==========
     const firebaseConfig = {
       apiKey: "AIzaSyD7-va8PJJVsVe52P6rfjhRq7LmHenJTu4",
       authDomain: "orcatombe.firebaseapp.com",
@@ -21,21 +19,20 @@
       appId: "1:397762857762:web:4803f34e50e34f7efe337b",
       measurementId: "G-MG9PKSMHRR"
     };
-    // ========== FIM DA CONFIGURAÇÃO ==========
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue, push, remove, update, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const leadsRef = ref(database, 'leads');
 
     window.firebaseReady = true;
-    window.firebaseDB = { database, leadsRef, push, remove, update, set, ref, onValue };
+    window.firebaseDB = { database, leadsRef, push, remove, update, ref, onValue };
     console.log('🔥 Firebase inicializado.');
   </script>
   <style>
-    /* ===== ORCATOMBE · PALETA VERDE ORC ===== */
+    /* ===== ESTILOS COMPLETOS (mantidos do anterior) ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --font-sans: 'Inter', system-ui, sans-serif;
@@ -233,12 +230,14 @@
     .connected { color: #3fcc10; }
     .disconnected { color: #cc3f10; }
     .admin-section { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-    .admin-login input { background: #0a0f0a; border: 1px solid var(--color-border-tertiary); border-radius: 20px; padding: 5px 12px; color: white; }
-    .editable-points { width: 60px; background: #0a0f0a; color: white; border: 1px solid var(--orc-neon); border-radius: 4px; padding: 2px 4px; }
+    .admin-login { display: flex; gap: 6px; align-items: center; }
+    .admin-login input { background: #0a0f0a; border: 1px solid var(--color-border-tertiary); border-radius: 20px; padding: 5px 12px; color: white; width: 120px; }
+    .editable-points { width: 70px; background: #0a0f0a; color: white; border: 1px solid var(--orc-neon); border-radius: 4px; padding: 2px 4px; text-align: center; }
     @media (max-width: 600px) {
       body { padding: 0.8rem; }
       .title-block h1 { font-size: 22px; }
       .pontuacao-grid { grid-template-columns: 1fr; }
+      .admin-section { margin-left: 0; }
     }
   </style>
 </head>
@@ -259,7 +258,7 @@
     <button class="tab" onclick="showPanel('registro', event)">Registro & Pontuação</button>
   </div>
 
-  <!-- PAINEL EQUIPES (mantido) -->
+  <!-- PAINEL EQUIPES -->
   <div id="equipes" class="panel active">
     <div class="passaros-warning">
       <h3>Os Pássaros — memória dos que tombaram</h3>
@@ -267,7 +266,6 @@
     </div>
     <p class="section-title">Escolha uma equipe para conhecer</p>
     <div class="teams-grid" id="teams-grid">
-      <!-- Cards das equipes (inalterados) -->
       <div class="team-card selected" onclick="selectTeam(0)"><img class="team-img" src="https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg" alt="Mascarados" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Mascarados'"><div class="card-content"><div class="icon">🎭</div><h3>Mascarados</h3><div class="subtitle">Agentes da Ordem. Diplomatas e estrategistas.</div><span class="product-badge">Design de Gamificação</span><div class="tagline">"Cada máscara revela uma intenção."</div></div></div>
       <div class="team-card" onclick="selectTeam(1)"><img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br" alt="PSIKOLERA" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=PSIKOLERA'"><div class="card-content"><div class="icon">🎸</div><h3>PSIKOLERA</h3><div class="subtitle">Banda ocultista. Caóticos e energéticos.</div><span class="product-badge">Design de Gamificação</span><div class="tagline">"Sem a máscara somos outros. Com ela, somos imparáveis."</div></div></div>
       <div class="team-card" onclick="selectTeam(2)"><img class="team-img" src="https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br" alt="Couraças" onerror="this.src='https://placehold.co/400x130/0e1a0e/3fcc10?text=Couraças'"><div class="card-content"><div class="icon">⚙️</div><h3>Couraças</h3><div class="subtitle">Cultistas blindados. Constroem fortalezas.</div><span class="product-badge">Landing Page Gamificada</span><div class="tagline">"Nossa armadura é nossa metodologia."</div></div></div>
@@ -277,11 +275,93 @@
     <div id="team-detail"><div id="team-detail-content"></div></div>
   </div>
 
-  <!-- PAINEL MECÂNICAS, PONTOS, PAPÉIS, CRONOLOGIA (mantidos, sem alterações) -->
-  <!-- ... (copie os painéis do código anterior) ... -->
-  <!-- Por brevidade, não repetirei aqui, mas eles permanecem idênticos -->
+  <!-- PAINEL MECÂNICAS -->
+  <div id="mecanicas" class="panel">
+    <p class="section-title">O ritual transposto para vendas</p>
+    <div class="mechanics-grid">
+      <div class="mechanic-card"><h4>O Sino</h4><p>Quando uma equipe fecha uma proposta, o sino toca: a equipe ganha +5 PE e todas as outras perdem -5 PE.</p></div>
+      <div class="mechanic-card"><h4>Estigmas de intenção</h4><p>Cada equipe carrega um estigma — poder especial (1 vez por ciclo).</p></div>
+      <div class="mechanic-card"><h4>Chamado às Armas</h4><p>No início, cada equipe anuncia ICP foco. Ganha +2 PE iniciais.</p></div>
+      <div class="mechanic-card"><h4>Desertor</h4><p>Membro que não cumpre cota mínima (3/dia) por 2 dias: -3 em ações, equipe -1 em todas.</p></div>
+      <div class="mechanic-card"><h4>Sacrifício Protegido</h4><p>Se o membro mais fraco converter lead, equipe ganha +8 PE (bônus único).</p></div>
+      <div class="mechanic-card"><h4>Sem Alianças</h4><p>Cada equipe luta por si. Não há transferência de leads.</p></div>
+      <div class="mechanic-card"><h4>Lua de Sangue</h4><p>Fim ocorre quando um contrato é fechado. Vencedor realiza desejo.</p></div>
+      <div class="mechanic-card"><h4>Quibungo</h4><p>Operações pode cancelar reunião improdutiva → +3 PE para equipe.</p></div>
+    </div>
+    <hr class="divider">
+    <p class="section-title">Estigmas (ativável 1 vez)</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+      <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;"><div style="font-size:11px; font-weight:600; color:#a6c99a;">MASCARADOS — Desejo</div><div style="font-size:14px; margin:8px 0; font-style:italic;">"Encare o Limiar e retorne a tua forma pristina"</div><div style="font-size:12px; color: var(--color-text-secondary);">Condição: ativar "Máscaras" (1x/semana). Leads convertidos no dia dão +3 PE extra.</div></div>
+      <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;"><div style="font-size:11px; font-weight:600; color:#a6c99a;">PSIKOLERA — Ira</div><div style="font-size:14px; margin:8px 0; font-style:italic;">"Liberta tua cólera primordial e aniquila"</div><div style="font-size:12px;">Condição: todos prospectarem mesmo segmento no dia. +2 PE por lead desse segmento.</div></div>
+      <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;"><div style="font-size:11px; font-weight:600; color:#a6c99a;">COURAÇAS — Obsessão</div><div style="font-size:14px; margin:8px 0; font-style:italic;">"Testifica tua lealdade e sangra sob as mãos de teu vínculo"</div><div style="font-size:12px;">Condição: sem Desertor no ciclo → imunidade a Pássaro por 2 dias.</div></div>
+      <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;"><div style="font-size:11px; font-weight:600; color:#a6c99a;">VAMPIROS — Culpa</div><div style="font-size:14px; margin:8px 0; font-style:italic;">"Carrega o fardo daquele sucumbido em teu amparo"</div><div style="font-size:12px;">Condição: resgatar um Desertor. Resgatado dobra PE por 1 dia.</div></div>
+      <div style="background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1.2rem;"><div style="font-size:11px; font-weight:600; color:#a6c99a;">TRANSTORNADOS — Orgulho</div><div style="font-size:14px; margin:8px 0; font-style:italic;">"Abata incólume o indigno que ousaria te flagelar"</div><div style="font-size:12px;">Condição: maior taxa de conversão → rouba 5 PE de qualquer equipe.</div></div>
+    </div>
+  </div>
 
-  <!-- PAINEL REGISTRO & PONTUAÇÃO (ATUALIZADO) -->
+  <!-- PAINEL PONTOS -->
+  <div id="pontos" class="panel">
+    <p class="section-title">Sistema de pontos de essência (PE)</p>
+    <p style="font-size:14px; color:var(--color-text-secondary); margin-bottom:1.8rem;">Pontos de Essência são o sangue do Orcatombe.</p>
+    <table class="points-table">
+      <tr><th>Ação / Missão</th><th>PE</th></tr>
+      <tr><td>Prospecção realizada</td><td>+1 PE</td></tr>
+      <tr><td>Acima da cota (6+/dia)</td><td>+2 PE extra</td></tr>
+      <tr><td>Reunião agendada</td><td>+5 PE</td></tr>
+      <tr><td>Proposta enviada</td><td>+10 PE</td></tr>
+      <tr><td>Projeto fechado (toca Sino)</td><td>+30 PE (e -5 outros)</td></tr>
+      <tr><td>Estigma ativado</td><td>+15 PE</td></tr>
+      <tr><td>Resgate de Desertor</td><td>+8 PE</td></tr>
+      <tr><td>Sacrifício Protegido converte</td><td>+8 PE (bônus único)</td></tr>
+      <tr><td>Chamado às Armas</td><td>+2 PE iniciais</td></tr>
+    </table>
+    <table class="points-table">
+      <tr><th>Penalidade</th><th>Efeito</th></tr>
+      <tr><td>Membro Desertor</td><td>-3 ações / equipe -1</td></tr>
+      <tr><td>Virar Pássaro (zerar dia)</td><td>-3 PE</td></tr>
+    </table>
+    <hr class="divider">
+    <p class="section-title">Recompensas</p>
+    <div class="rewards-grid">
+      <div class="reward-item"><div>1º lugar (equipe)</div><div>Jantar + troféu + folga</div></div>
+      <div class="reward-item"><div>Top 6 individuais</div><div>Prêmio especial</div></div>
+      <div class="reward-item"><div>Fechou projeto</div><div>Menção honrosa</div></div>
+      <div class="reward-item"><div>Melhor resgate</div><div>Título "Pomba"</div></div>
+    </div>
+  </div>
+
+  <!-- PAINEL PAPÉIS -->
+  <div id="papeis" class="panel">
+    <p class="section-title">Os papéis sagrados</p>
+    <div class="role-grid">
+      <div class="role-card"><h4>Negócios — O Ocultista</h4><p>Conduz diagnóstico e ensina o ritual.</p></div>
+      <div class="role-card"><h4>Projetos — O Historiador</h4><p>Sabe tudo sobre o produto.</p></div>
+      <div class="role-card"><h4>Operações — O Cartógrafo</h4><p>Mapeia a equipe, identifica Desertores.</p></div>
+      <div class="role-card"><h4>Marketing — O Escripta</h4><p>ICP e persona.</p></div>
+      <div class="role-card"><h4>Executiva — Agentes infiltrados</h4><p>Prospectam junto.</p></div>
+    </div>
+    <hr class="divider">
+    <p class="section-title">Composição (34 pessoas / 5 equipes)</p>
+    <div style="background: #0e1a0e; border-radius:12px; padding:1.2rem; border:1px solid var(--color-border-tertiary);">
+      <strong style="color:#c0e0b0;">Distribuição sugerida:</strong><br>
+      5 equipes × ~6 membros = 30 + 4 diretores executivos = 34 pessoas<br>
+      2 vendem Design de Gamificação · 2 vendem Landing Page · 1 livre.
+    </div>
+  </div>
+
+  <!-- PAINEL CRONOLOGIA -->
+  <div id="cronologia" class="panel">
+    <p class="section-title">Fases da Guerra — até o contrato</p>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot">I</div><div class="content"><h4>Chamado às Armas</h4><p>Anúncio do ICP foco. +2 PE iniciais.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">II</div><div class="content"><h4>Caçada</h4><p>Prospecções diárias. Desertores marcados.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">III</div><div class="content"><h4>Pressão do Sangue</h4><p>Quem zera vira Pássaro. Sacrifício protegido.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot">IV</div><div class="content"><h4>Último Suspiro</h4><p>Proposta próxima, clima tenso.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background: #1e4a1e; color: #e0f0d0; border-color: #3fcc10;">LUA</div><div class="content"><h4>Lua de Sangue — Fechamento</h4><p>Contagem final de PE. Equipe vencedora realiza desejo.</p></div></div>
+    </div>
+  </div>
+
+  <!-- PAINEL REGISTRO -->
   <div id="registro" class="panel">
     <p class="section-title">📜 Registro dos Leads — Planilha do Orcatombe (Tempo Real)</p>
     <div class="registro-container">
@@ -299,10 +379,9 @@
         <button class="btn small" onclick="aplicarEstigma()">✨ Ativar Estigma</button>
         <button class="btn small" onclick="registrarDesertor()">⚠️ Marcar Desertor</button>
         <button class="btn small" onclick="tocarSino()">🔔 Tocar o Sino</button>
-        <!-- Área de Admin -->
         <div class="admin-section">
           <div class="admin-login">
-            <input type="password" id="adminPassword" placeholder="Senha admin" style="width:120px;">
+            <input type="password" id="adminPassword" placeholder="Senha admin">
             <button class="btn small" onclick="loginAdmin()">🔐 Login</button>
           </div>
           <button class="btn small" id="btnLimparTudo" onclick="resetarPlanilha()" style="display:none;">🗑️ Limpar Tudo</button>
@@ -325,79 +404,96 @@
 </div>
 
 <script>
-  // ========== DADOS DAS EQUIPES (UI) ==========
-  const teamDetails = [ /* ... (mesmo array anterior) ... */ ];
-  // (copie o array teamDetails do código anterior, mantive omitido por brevidade)
+  // Dados das equipes
+  const teamDetails = [
+    { name: "Mascarados", img: "https://pbs.twimg.com/media/G7hns6YWEAAfA4p.jpg", lore: "Agentes da Ordo Realitas infiltrados entre as sombras do mercado, os Mascarados trocam de persona conforme o prospecto exige. Diplomatas natos, sabem exatamente quando avançar, recuar ou firmar uma aliança.", personality: "Adaptáveis, estrategistas.", vendas: "Design de Gamificação", abordagem: "Cada membro usa uma 'máscara'. 1x/semana: leads convertidos dão +3 PE extra.", poder: "Máscaras: +3 PE por lead convertido no dia." },
+    { name: "PSIKOLERA", img: "https://static.wikia.nocookie.net/ordemparanormal/images/0/01/Banda_PSIKOLERA.jpg/revision/latest/scale-to-width-down/1200?cb=20251017211649&path-prefix=pt-br", lore: "Caóticos, barulhentos e absolutamente imprevisíveis, a PSIKOLERA é a banda ocultista que transforma prospecção em espetáculo.", personality: "Caóticos, criativos.", vendas: "Design de Gamificação", abordagem: "Quando todos prospectam mesmo segmento, +2 PE/lead do segmento.", poder: "Ataque combinado: +2 PE/lead do segmento." },
+    { name: "Couraças", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/eb/Coura%C3%A7as_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143317&path-prefix=pt-br", lore: "Blindados por uma metodologia de ferro, os Couraças constroem fortalezas antes mesmo de partir para o ataque.", personality: "Metódicos.", vendas: "Landing Page Gamificada", abordagem: "Sem Desertor no ciclo → imunidade a Pássaro por 2 dias.", poder: "Fortaleza: imunidade a Pássaro (2 dias)." },
+    { name: "Vampiros", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br", lore: "Pacientes como a noite eterna, os Vampiros não desperdiçam uma única gota de energia. Calculistas e metódicos.", personality: "Pacientes.", vendas: "Landing Page Gamificada", abordagem: "Resgatar Desertor: resgatado dobra PE por 1 dia.", poder: "Resgate dobra PE do Desertor." },
+    { name: "Transtornados", img: "https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br", lore: "Giovanni e seus seguidores compreenderam que a verdadeira arma é a informação.", personality: "Inteligentes.", vendas: "Disputa os dois", abordagem: "Maior conversão → rouba 5 PE de qualquer equipe.", poder: "Roubo de Essência: 5 PE." }
+  ];
 
-  window.selectTeam = function(i) { /* ... (mesma implementação) ... */ };
-  window.showPanel = function(id, ev) { /* ... (mesma implementação) ... */ };
+  window.selectTeam = function(i) {
+    document.querySelectorAll('.team-card').forEach((c, idx) => {
+      c.style.borderColor = '';
+      c.style.borderWidth = '';
+      c.classList.remove('selected');
+    });
+    const card = document.querySelectorAll('.team-card')[i];
+    card.classList.add('selected');
+    card.style.borderColor = '#3fcc10';
+    card.style.borderWidth = '2px';
+    const t = teamDetails[i];
+    document.getElementById('team-detail-content').innerHTML = `
+      <div class="team-detail-header">
+        <img class="team-detail-img" src="${t.img}" alt="${t.name}" onerror="this.src='https://placehold.co/120x120/0e1a0e/3fcc10?text=${t.name}'">
+        <div style="font-size:14px; font-weight:600; color:#b0e0a0;">${t.name}</div>
+      </div>
+      <p style="font-size:14px; color: var(--color-text-secondary); margin-bottom:16px;">${t.lore}</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+        <div><div style="font-size:11px;">Personalidade</div><div>${t.personality}</div></div>
+        <div><div style="font-size:11px;">Produto</div><div>${t.vendas}</div></div>
+      </div>
+      <div><div style="font-size:11px;">Abordagem</div><div>${t.abordagem}</div></div>
+      <div style="background:#0e1a0e; border-left:4px solid #3fcc10; padding:10px; margin-top:12px;">
+        <div style="font-size:11px;">Poder especial</div><div>${t.poder}</div>
+      </div>
+    `;
+  };
 
-  // ========== VARIÁVEIS GLOBAIS ==========
+  window.showPanel = function(id, ev) {
+    if (ev) ev.preventDefault();
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const activeTab = Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.toLowerCase().includes(id.toLowerCase()));
+    if (activeTab) activeTab.classList.add('active');
+  };
+
+  // Admin
   let isAdmin = false;
   const ADMIN_PASSWORD = "direx26";
-
-  // ========== FUNÇÕES DE ADMIN ==========
   window.loginAdmin = function() {
-    const pwd = document.getElementById('adminPassword').value;
-    if (pwd === ADMIN_PASSWORD) {
+    if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
       isAdmin = true;
       document.getElementById('btnLimparTudo').style.display = 'inline-block';
       document.getElementById('adminActionHeader').style.display = 'table-cell';
+      atualizarTabelaEPontuacao();
       alert('✅ Modo administrador ativado.');
-      atualizarTabelaEPontuacao(); // recria tabela com coluna de ações
-    } else {
-      alert('Senha incorreta.');
-    }
+    } else alert('Senha incorreta.');
   };
 
-  // ========== INTEGRAÇÃO FIREBASE ==========
+  // Firebase + funções principais
   window.addEventListener('load', () => {
     document.getElementById('leadData').value = new Date().toISOString().slice(0,10);
     selectTeam(0);
+    if (!window.firebaseReady) return;
 
-    if (!window.firebaseReady) {
-      document.getElementById('connectionStatus').innerHTML = '❌ Firebase não configurado.';
-      return;
-    }
-
-    const { database, leadsRef, push, remove, update, set, ref, onValue } = window.firebaseDB;
+    const { database, leadsRef, push, remove, update, ref, onValue } = window.firebaseDB;
     const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
 
-    // Status de conexão
-    const connectedRef = ref(database, '.info/connected');
-    onValue(connectedRef, (snap) => {
-      const statusEl = document.getElementById('connectionStatus');
-      statusEl.innerHTML = snap.val() ? '🟢 Conectado (tempo real)' : '🔴 Desconectado';
-      statusEl.className = snap.val() ? 'status-indicator connected' : 'status-indicator disconnected';
+    onValue(ref(database, '.info/connected'), (snap) => {
+      const el = document.getElementById('connectionStatus');
+      el.innerHTML = snap.val() ? '🟢 Conectado (tempo real)' : '🔴 Desconectado';
+      el.className = 'status-indicator ' + (snap.val() ? 'connected' : 'disconnected');
     });
 
-    // Listener de leads
-    onValue(leadsRef, (snapshot) => {
+    onValue(leadsRef, (snap) => {
       const leads = [];
-      snapshot.forEach((child) => { leads.push({ id: child.key, ...child.val() }); });
+      snap.forEach(c => leads.push({ id: c.key, ...c.val() }));
       window.leadsData = leads;
       atualizarTabelaEPontuacao();
     });
 
-    // Função auxiliar para calcular pontos com bônus de cota
     function calcularPontosComCota(status, equipe, membro, data) {
       if (status !== 'contatado') {
-        // status fixos
         if (status === 'reuniao') return 5;
         if (status === 'proposta') return 10;
         if (status === 'fechado') return 30;
         return 0;
       }
-      // conta quantos "contatado" já existem para este membro/equipe na mesma data
-      const leads = window.leadsData || [];
-      const contatosNoDia = leads.filter(l => 
-        l.equipe === equipe && 
-        l.membro === membro && 
-        l.data === data && 
-        l.status === 'contatado'
-      ).length;
-      // se já existem 6 ou mais, este é um lead extra → +2 bônus
-      return (contatosNoDia >= 6) ? 3 : 1;
+      const contatos = (window.leadsData || []).filter(l => l.equipe === equipe && l.membro === membro && l.data === data && l.status === 'contatado').length;
+      return contatos >= 6 ? 3 : 1;
     }
 
     window.adicionarLead = () => {
@@ -409,7 +505,6 @@
       const canal = document.getElementById('leadCanal').value;
       const status = document.getElementById('leadStatus').value;
       if (!membro || !leadNome) { alert('Preencha membro e lead!'); return; }
-      
       const pontos = calcularPontosComCota(status, equipe, membro, data);
       push(leadsRef, { data, equipe, membro, lead: leadNome, empresa, canal, status, pontos });
       document.getElementById('leadMembro').value = '';
@@ -417,47 +512,22 @@
       document.getElementById('leadEmpresa').value = '';
     };
 
-    window.removerLead = (id) => {
+    window.removerLead = (id) => { if (isAdmin) remove(ref(database, `leads/${id}`)); };
+    window.atualizarPontosLead = (id, val) => {
       if (!isAdmin) return;
-      const leadRef = ref(database, `leads/${id}`);
-      remove(leadRef);
+      const pontos = parseInt(val, 10);
+      if (!isNaN(pontos)) update(ref(database, `leads/${id}`), { pontos });
     };
 
-    window.atualizarPontosLead = (id, novoValor) => {
-      if (!isAdmin) return;
-      const pontos = parseInt(novoValor, 10);
-      if (isNaN(pontos)) return;
-      const leadRef = ref(database, `leads/${id}`);
-      update(leadRef, { pontos });
-    };
-
-    window.aplicarEstigma = () => {
-      const eq = document.getElementById('leadEquipe').value;
-      push(leadsRef, {
-        data: new Date().toISOString().slice(0,10), equipe: eq, membro: '✨ ESTIGMA',
-        lead: 'Ativação de Estigma', empresa: '-', canal: 'Especial', status: 'estigma', pontos: 15
-      });
-    };
-    window.registrarDesertor = () => {
-      const eq = document.getElementById('leadEquipe').value;
-      push(leadsRef, {
-        data: new Date().toISOString().slice(0,10), equipe: eq, membro: '⚠️ DESERTOR',
-        lead: 'Penalidade por Desertor', empresa: '-', canal: 'Penalidade', status: 'desertor', pontos: -3
-      });
-    };
+    window.aplicarEstigma = () => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: document.getElementById('leadEquipe').value, membro: '✨ ESTIGMA', lead: 'Ativação de Estigma', empresa: '-', canal: 'Especial', status: 'estigma', pontos: 15 });
+    window.registrarDesertor = () => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: document.getElementById('leadEquipe').value, membro: '⚠️ DESERTOR', lead: 'Penalidade por Desertor', empresa: '-', canal: 'Penalidade', status: 'desertor', pontos: -3 });
     window.tocarSino = () => {
       const fechou = document.getElementById('leadEquipe').value;
-      equipes.forEach(eq => {
-        push(leadsRef, {
-          data: new Date().toISOString().slice(0,10), equipe: eq, membro: '🔔 SINO',
-          lead: eq === fechou ? 'fechou' : 'perdeu', empresa: '-', canal: 'Especial', status: 'sino',
-          pontos: eq === fechou ? 5 : -5
-        });
-      });
+      equipes.forEach(eq => push(leadsRef, { data: new Date().toISOString().slice(0,10), equipe: eq, membro: '🔔 SINO', lead: eq === fechou ? 'fechou' : 'perdeu', empresa: '-', canal: 'Especial', status: 'sino', pontos: eq === fechou ? 5 : -5 }));
     };
     window.resetarPlanilha = () => {
-      if (!isAdmin) { alert('Apenas administradores podem limpar os registros.'); return; }
-      if (!confirm('ATENÇÃO: Isso apagará TODOS os leads do Firebase permanentemente. Continuar?')) return;
+      if (!isAdmin) { alert('Apenas administradores.'); return; }
+      if (!confirm('Apagar TODOS os leads?')) return;
       const updates = {};
       window.leadsData.forEach(l => { updates[`leads/${l.id}`] = null; });
       update(ref(database), updates);
@@ -469,29 +539,22 @@
       tbody.innerHTML = '';
       leads.forEach(l => {
         const tr = document.createElement('tr');
-        let acoesHtml = '';
-        if (isAdmin) {
-          acoesHtml = `<td>
-            <button class="btn small" onclick="removerLead('${l.id}')">🗑️</button>
-            <input type="number" class="editable-points" value="${l.pontos}" onchange="atualizarPontosLead('${l.id}', this.value)">
-          </td>`;
-        }
-        tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${l.status}</td><td>${l.pontos}</td>${acoesHtml}`;
+        let acao = '';
+        if (isAdmin) acao = `<td><button class="btn small" onclick="removerLead('${l.id}')">🗑️</button> <input class="editable-points" type="number" value="${l.pontos}" onchange="atualizarPontosLead('${l.id}', this.value)"></td>`;
+        tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${l.status}</td><td>${l.pontos}</td>${acao}`;
         tbody.appendChild(tr);
       });
-
-      // Cabeçalho da coluna ações
       document.getElementById('adminActionHeader').style.display = isAdmin ? 'table-cell' : 'none';
-
       const pontosPorEquipe = {};
       equipes.forEach(e => pontosPorEquipe[e] = 0);
       leads.forEach(l => { if (equipes.includes(l.equipe)) pontosPorEquipe[l.equipe] += l.pontos; });
-      const maxPontos = Math.max(...Object.values(pontosPorEquipe));
+      const max = Math.max(...Object.values(pontosPorEquipe));
       document.getElementById('placarEquipes').innerHTML = equipes.map(eq => {
         const pts = pontosPorEquipe[eq];
-        return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === maxPontos && maxPontos > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
+        return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === max && max > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
       }).join('');
     }
+    window.atualizarTabelaEPontuacao = atualizarTabelaEPontuacao;
   });
 </script>
 </body>
