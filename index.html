@@ -1406,12 +1406,12 @@
           <th>PE</th>
         </tr>
         <tr>
-          <td>Prospecção realizada</td>
-          <td>+1 PE</td>
+          <td>Lead contatado (Ligação)</td>
+          <td>+2 PE (5 PE a partir do 7º)</td>
         </tr>
         <tr>
-          <td>Acima da cota (6+/dia)</td>
-          <td>+2 PE extra</td>
+          <td>Lead contatado (outros canais)</td>
+          <td>+1 PE (3 PE a partir do 7º)</td>
         </tr>
         <tr>
           <td>Reunião agendada</td>
@@ -2109,7 +2109,7 @@
         }
 
         // Função para calcular pontos COM BÔNUS DE COTA
-        function calcularPontosComCota(status, equipe, membro, data) {
+        function calcularPontosComCota(status, equipe, membro, data, canal) {
           if (status !== 'contatado') {
             if (status === 'reuniao') return 5;
             if (status === 'proposta') return 10;
@@ -2117,14 +2117,20 @@
             return 0;
           }
           const leads = window.leadsData || [];
+          // conta quantos leads "contatado" (qualquer canal) o membro já tem no dia
           const contatosNoDia = leads.filter(l =>
             l.equipe === equipe &&
             l.membro === membro &&
             l.data === data &&
             l.status === 'contatado'
           ).length;
-          // Até 6 leads: 2 pontos. A partir do 7º: 5 pontos.
-          return contatosNoDia >= 6 ? 5 : 2;
+          const jaPassouDaCota = contatosNoDia >= 6; // true se este é o 7º lead ou mais
+
+          if (canal === 'Ligação') {
+            return jaPassouDaCota ? 5 : 2;
+          } else {
+            return jaPassouDaCota ? 3 : 1;
+          }
         }
 
         window.adicionarLead = () => {
@@ -2143,7 +2149,7 @@
             return;
           }
 
-          const pontos = calcularPontosComCota(status, equipe, membro, data);
+          const pontos = calcularPontosComCota(status, equipe, membro, data, canal);
           push(leadsRef, { data, equipe, membro, lead: leadNome, empresa, canal, segmento, servico, status, pontos });
 
           // Registra evento de notificação
