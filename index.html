@@ -1177,22 +1177,7 @@
 }
 .modal-close:hover { color: var(--orc-neon); }
 
-/* Alerta de desertor no placar */
-.pontuacao-card.alerta-desertor {
-  border-color: #cc3f10 !important;
-  animation: pulsarAlerta 1.5s infinite alternate;
-  box-shadow: 0 0 15px rgba(204, 63, 16, 0.4);
-}
 
-.pontuacao-card.alerta-desertor .score {
-  color: #ff6b4a;
-  text-shadow: 0 0 10px rgba(255, 107, 74, 0.6);
-}
-
-@keyframes pulsarAlerta {
-  from { box-shadow: 0 0 10px rgba(204, 63, 16, 0.3); }
-  to { box-shadow: 0 0 25px rgba(255, 60, 20, 0.7); }
-}
   </style>
 
   <link rel="icon" type="image" href="/orcatombe/main.png">
@@ -1863,7 +1848,6 @@
         const pwd = document.getElementById('adminPassword').value;
         if (pwd === ADMIN_PASSWORD) {
           isAdmin = true;
-          document.getElementById('btnLimparTudo').style.display = 'inline-block';
           document.getElementById('adminActionHeader').style.display = 'table-cell';
           document.getElementById('tabAnalytics').style.display = 'inline-block';
           document.getElementById('tabAnalytics').classList.add('tab');
@@ -1936,6 +1920,7 @@
           const totalReunioes = membroLeads.filter(l => l.status === 'reuniao').length;
           const totalPropostas = membroLeads.filter(l => l.status === 'proposta').length;
           const totalFechados = membroLeads.filter(l => l.status === 'fechado').length;
+          const totalDesertores = membroLeads.filter(l => l.status === 'desertor').length;
           const pontosTotal = membroLeads.reduce((s, l) => s + (l.pontos || 0), 0);
 
           const hoje = new Date();
@@ -1993,6 +1978,7 @@
                 <div class="analytics-card fechado"><h3>🏆 Fechados</h3><div class="valor">${totalFechados}</div></div>
                 <div class="analytics-card"><h3>✨ Pontos</h3><div class="valor">${pontosTotal}</div></div>
                 <div class="analytics-card"><h3>📊 Média/dia</h3><div class="valor">${mediaDiaria}</div></div>
+                <div class="analytics-card"><h3>⚠️ Desertores</h3><div class="valor">${totalDesertores}</div></div>
               </div>
               <div style="margin-top:18px; display:flex; gap:20px; flex-wrap:wrap;">
                 <div style="flex:1; min-width:140px;">
@@ -2134,6 +2120,7 @@
         }
 
         window.adicionarLead = () => {
+          paginaAtual = 1; // volta para a primeira página
           const data = document.getElementById('leadData').value || new Date().toISOString().slice(0, 10);
           const equipe = document.getElementById('leadEquipe').value;
           const membro = document.getElementById('leadMembro').value;
@@ -2190,6 +2177,7 @@
 
 
         window.aplicarEstigma = () => {
+          paginaAtual = 1;
           const eq = document.getElementById('leadEquipe').value;
           push(leadsRef, {
             data: new Date().toISOString().slice(0, 10),
@@ -2210,27 +2198,34 @@
         };
 
         window.registrarDesertor = () => {
+          paginaAtual = 1;
           const eq = document.getElementById('leadEquipe').value;
+          const membroDesertor = document.getElementById('leadMembro').value;
           
-          // 1. Registra o lead de desertor com penalidade maior
+          if (!membroDesertor) {
+            alert('Selecione um membro para marcar como desertor!');
+            return;
+          }
+
+          // 1. Registra o lead de desertor com o nome do membro
           push(leadsRef, {
             data: new Date().toISOString().slice(0, 10),
             equipe: eq,
-            membro: '⚠️ DESERTOR',
+            membro: membroDesertor,
             lead: 'Penalidade por Desertor',
             empresa: '-',
             canal: 'Penalidade',
             status: 'desertor',
-            pontos: -8  // antes era -3
+            pontos: -8
           });
-          
+
           // 2. Aplica penalidade duradoura no ajuste da equipe
           const ajusteAtual = (window.ajustesEquipes && window.ajustesEquipes[eq]) || 0;
-          const novoAjuste = ajusteAtual - 2;  // -2 pontos fixos na equipe
+          const novoAjuste = ajusteAtual - 2;
           const ajusteRef = ref(database, `ajustes/equipes/${eq}`);
           update(ajusteRef, { [eq]: novoAjuste });
-          
-          // 3. Verifica acúmulo de desertores nos últimos 7 dias e pune progressivamente
+
+          // 3. Verifica acúmulo de desertores na equipe (qualquer membro) nos últimos 7 dias
           const leads = window.leadsData || [];
           const seteDiasAtras = new Date();
           seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
@@ -2242,24 +2237,23 @@
             l.data >= limite
           ).length;
           
-          // Se já existem 2 ou mais desertores recentes (este é o 3º+), aplica penalidade extra
           if (desertoresRecentes >= 3) {
             const penalidadeExtra = -5;
-            const ajusteRef2 = ref(database, `ajustes/equipes/${eq}`);
-            update(ajusteRef2, { [eq]: novoAjuste + penalidadeExtra });
+            update(ajusteRef, { [eq]: novoAjuste + penalidadeExtra });
             console.log(`⚠️ ${eq} acumulou ${desertoresRecentes} desertores! Penalidade extra de ${penalidadeExtra} pontos.`);
           }
-          
-          // 4. Notificação de evento
+
+          // 4. Notificação de evento (agora com nome do membro)
           push(eventosRef, {
             equipe: eq,
             tipo: 'desertor',
-            mensagem: `⚠️ DESERTOR em ${eq}! -8 pontos e -2 de penalidade na equipe.`,
+            mensagem: `⚠️ ${membroDesertor} (${eq}) foi marcado como DESERTOR! -8 pontos e -2 de penalidade na equipe.`,
             timestamp: Date.now()
           });
         };
 
         window.tocarSino = () => {
+          paginaAtual = 1;
           const fechou = document.getElementById('leadEquipe').value;
           equipes.forEach(eq => {
             push(leadsRef, {
@@ -2281,24 +2275,13 @@
           });
         };
 
-        window.resetarPlanilha = () => {
-          if (!isAdmin) {
-            alert('Apenas administradores podem limpar os registros.');
-            return;
-          }
-          if (!confirm('ATENÇÃO: Isso apagará TODOS os leads do Firebase para todos os usuários. Continuar?')) return;
-          const updates = {};
-          window.leadsData.forEach(l => { updates[`leads/${l.id}`] = null; });
-          update(ref(database), updates);
-        };
-
         window.atualizarAjusteEquipe = (equipe, novoValor) => {
           if (!isAdmin) return;
           const valor = parseInt(novoValor, 10);
           if (isNaN(valor)) return;
-          // Atualiza no Firebase – passar um objeto com a chave correta
-          const ajusteRef = ref(database, `ajustes/equipes`);
-          update(ajusteRef, { [equipe]: valor });
+          // Salva diretamente no caminho correto, garantindo que é um número
+          const equipeAjusteRef = ref(database, `ajustes/equipes/${equipe}`);
+          update(equipeAjusteRef, { [equipe]: valor });
         };
 
         function calcularTitulos(leads) {
@@ -2396,6 +2379,16 @@
             return true;
           });
 
+          // Ordena por data decrescente (mais recente primeiro)
+          leadsFiltrados.sort((a, b) => {
+            const dataA = a.data || '';
+            const dataB = b.data || '';
+            const cmp = dataB.localeCompare(dataA);
+            if (cmp !== 0) return cmp;
+            // Se a data for igual, usa o id para manter o lead mais recente primeiro
+            return (b.id || '').localeCompare(a.id || '');
+          });
+
           document.getElementById('contadorLeads').innerText = leads.length;
 
           const tbody = document.getElementById('leadsBody');
@@ -2445,7 +2438,9 @@
           // Aplica ajustes do admin (se existirem)
           const ajustes = window.ajustesEquipes || {};
           equipes.forEach(eq => {
-            pontosPorEquipe[eq] += (ajustes[eq] || 0);
+            // Garante que o ajuste é um número (evita [object Object])
+            const ajusteValor = Number(ajustes[eq]) || 0;
+            pontosPorEquipe[eq] += ajusteValor;
           });
 
           window.ajustesEquipes = ajustesEquipes;
@@ -2470,18 +2465,8 @@
               `<span class="titulo-badge ${t.classe}">${t.texto}</span>`
             ).join(' ');
 
-            // Verifica se a equipe tem desertores nos últimos 7 dias
-            const seteDiasAtras = new Date();
-            seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
-            const limiteDesertor = seteDiasAtras.toISOString().slice(0, 10);
-            const temDesertorRecente = leads.some(l => 
-              l.equipe === eq && 
-              l.status === 'desertor' && 
-              l.data >= limiteDesertor
-            );
-
-            return `<div class="pontuacao-card ${temDesertorRecente ? 'alerta-desertor' : ''}">
-      <h4>${eq} ${temDesertorRecente ? '⚠️' : ''}</h4>
+            return `<div class="pontuacao-card">
+      <h4>${eq}</h4>
       <div class="score">${pts}</div>
       ${pts === max && max > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}
       <div style="margin-top:6px; display:flex; flex-wrap:wrap; justify-content:center; gap:4px;">${badgesHTML}</div>
