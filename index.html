@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Estado de Guerra — Orc'estra · Orcatombe</title>
+  <link rel="icon" type="image/png" href="main.png">
   <!-- Fontes rituais -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -742,7 +743,459 @@
     #rankingIndividualBody td {
       color: var(--color-text-secondary);
     }
+
+    #paginacao button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+/* Toasts de notificação */
+.toast {
+  background: #0a0f0a;
+  border: 1px solid var(--orc-neon);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(46, 182, 0, 0.4);
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 4.7s forwards;
+  pointer-events: auto;
+}
+.toast .emoji { font-size: 22px; }
+.toast .content { flex: 1; }
+.toast .content strong { color: var(--orc-neon); }
+.toast.Mascarados { border-color: #a32d2d; } /* vermelho original */
+.toast.PSIKOLERA { border-color: #d4a72c; }
+.toast.Couraças { border-color: #534AB7; }
+.toast.Vampiros { border-color: #8B0000; }
+.toast.Transtornados { border-color: #0F6E56; }
+.toast.sino { border-color: var(--orc-neon); animation: pulse 1s infinite alternate; }
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(10px); }
+}
+@keyframes pulse {
+  from { box-shadow: 0 0 10px var(--orc-neon); }
+  to { box-shadow: 0 0 25px var(--orc-neon); }
+}
+
+/* ==============================
+   ANALYTICS – VISUAL REFINADO
+   ============================== */
+
+/* Container dos cards de visão geral */
+.analytics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+/* Card individual */
+.analytics-card {
+  background: linear-gradient(145deg, #0e1a0e 0%, #0a130a 100%);
+  border: 1px solid #1e3a1e;
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 0 30px rgba(46,182,0,0.03);
+  transition: transform 0.2s ease, border-color 0.2s;
+}
+
+.analytics-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--orc-neon);
+  box-shadow: 0 6px 18px rgba(63,204,16,0.2);
+}
+
+/* Brilho sutil no topo */
+.analytics-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orc-neon), transparent);
+  opacity: 0.5;
+}
+
+/* Título do card */
+.analytics-card h3 {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  font-weight: 500;
+  color: #7a9a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+/* Valor grande */
+.analytics-card .valor {
+  font-size: 32px;
+  font-weight: 700;
+  color: #c0e0b0;
+  text-shadow: 0 0 10px rgba(63,204,16,0.6);
+  line-height: 1;
+}
+
+/* Variação de cor para fechados */
+.analytics-card.fechado .valor {
+  color: #ffd966;
+  text-shadow: 0 0 12px rgba(255,200,0,0.5);
+}
+
+/* Grid para gráficos lado a lado */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Contêiner dos gráficos */
+.chart-bar-horizontal,
+.chart-bar-vertical,
+.chart-funil {
+  background: #0c150c;
+  border: 1px solid #1e3a1e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* Título das seções de gráfico */
+.chart-title {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  font-weight: 500;
+  color: #a0c0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--orc-neon);
+  padding-left: 10px;
+}
+
+/* Barra horizontal */
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.bar-label {
+  width: 110px;
+  font-size: 12px;
+  color: #a0b0a0;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  flex: 1;
+  background: #1a1f1a;
+  border-radius: 6px;
+  height: 18px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #01571e, #3fcc10);
+  box-shadow: 0 0 8px rgba(63,204,16,0.4);
+  transition: width 0.4s ease;
+}
+
+/* Cores por equipe nas barras */
+.bar-fill.Mascarados { background: linear-gradient(90deg, #5a1a1a, #a32d2d); box-shadow: 0 0 8px rgba(163,45,45,0.5); }
+.bar-fill.PSIKOLERA { background: linear-gradient(90deg, #6b4c0a, #d4a72c); box-shadow: 0 0 8px rgba(212,167,44,0.5); }
+.bar-fill.Couraças   { background: linear-gradient(90deg, #2a235a, #534AB7); box-shadow: 0 0 8px rgba(83,74,183,0.5); }
+.bar-fill.Vampiros   { background: linear-gradient(90deg, #4a0000, #8B0000); box-shadow: 0 0 8px rgba(139,0,0,0.5); }
+.bar-fill.Transtornados { background: linear-gradient(90deg, #043a2e, #0F6E56); box-shadow: 0 0 8px rgba(15,110,86,0.5); }
+
+.bar-valor {
+  width: 60px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c0e0b0;
+  text-align: left;
+}
+
+/* Gráfico de barras verticais */
+.chart-bar-vertical {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px;
+  height: 200px;
+}
+
+.vertical-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.vertical-bar .barra {
+  width: 32px;
+  background: linear-gradient(to top, #01571e, #3fcc10);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 0 10px rgba(63,204,16,0.4);
+  transition: height 0.4s ease;
+}
+
+.vertical-bar .rotulo {
+  font-size: 10px;
+  color: #90a090;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Funil de conversão */
+.chart-funil {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.funil-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.funil-nome {
+  width: 90px;
+  font-size: 12px;
+  color: #a0b0a0;
+  text-align: right;
+}
+
+.funil-track {
+  flex: 1;
+  background: #1a1f1a;
+  border-radius: 6px;
+  height: 22px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.funil-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #01571e, #2eb600);
+  box-shadow: 0 0 8px rgba(46,182,0,0.5);
+  transition: width 0.4s ease;
+}
+
+.funil-valor {
+  width: 70px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c0e0b0;
+  text-align: left;
+}
+
+/* Tabela do top 10 (herda .leads-table) */
+#analyticsTop10 td {
+  color: var(--color-text-secondary);
+}
+
+/* Badges de títulos */
+.titulo-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background: #0c150c;
+  border: 1px solid #3fcc10;
+  color: #c0e0b0;
+  box-shadow: 0 0 6px rgba(63,204,16,0.3);
+}
+
+.titulo-badge.ceifador    { border-color: #ffd966; color: #ffd966; box-shadow: 0 0 8px rgba(255,217,102,0.5); }
+.titulo-badge.inquebravel { border-color: #66aaff; color: #66aaff; box-shadow: 0 0 8px rgba(102,170,255,0.5); }
+.titulo-badge.arauto      { border-color: #cc66ff; color: #cc66ff; box-shadow: 0 0 8px rgba(204,102,255,0.5); }
+.titulo-badge.senhor      { border-color: #ff6666; color: #ff6666; box-shadow: 0 0 8px rgba(255,102,102,0.5); }
+.titulo-badge.mestre      { border-color: #66ff99; color: #66ff99; box-shadow: 0 0 8px rgba(102,255,153,0.5); }
+
+/* Grade de explicação dos títulos */
+.titulos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.titulo-item {
+  background: #0c150c;
+  border: 1px solid #1e3a1e;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.titulo-item p {
+  font-size: 12px;
+  color: #a0b0a0;
+  line-height: 1.5;
+}
+
+/* Modal do Mini Dashboard */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 10, 5, 0.85);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal-card {
+  background: linear-gradient(145deg, #0c150c, #080e08);
+  border: 1px solid var(--orc-neon);
+  border-radius: 20px;
+  padding: 2rem 1.8rem;
+  max-width: 700px;
+  width: 92%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 35px rgba(46, 182, 0, 0.4);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.modal-close:hover {
+  color: var(--orc-neon);
+}
+
+/* Estilos internos do modal (reutiliza classes do analytics) */
+.modal-conteudo h3 {
+  font-family: var(--font-serif);
+  color: var(--orc-neon);
+  margin-bottom: 4px;
+}
+.modal-conteudo .subtitulo {
+  color: #a0b0a0;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* Responsivo extra */
+@media (max-width: 600px) {
+  .analytics-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bar-label {
+    width: 80px;
+    font-size: 10px;
+  }
+}
+/* Modal de compartilhamento (reaproveita estilos do modal) */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 10, 5, 0.85);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.modal-card {
+  background: linear-gradient(145deg, #0c150c, #080e08);
+  border: 1px solid var(--orc-neon);
+  border-radius: 20px;
+  padding: 2rem 1.8rem;
+  max-width: 700px;
+  width: 92%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 35px rgba(46, 182, 0, 0.4);
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.modal-close:hover { color: var(--orc-neon); }
+
+/* Alerta de desertor no placar */
+.pontuacao-card.alerta-desertor {
+  border-color: #cc3f10 !important;
+  animation: pulsarAlerta 1.5s infinite alternate;
+  box-shadow: 0 0 15px rgba(204, 63, 16, 0.4);
+}
+
+.pontuacao-card.alerta-desertor .score {
+  color: #ff6b4a;
+  text-shadow: 0 0 10px rgba(255, 107, 74, 0.6);
+}
+
+@keyframes pulsarAlerta {
+  from { box-shadow: 0 0 10px rgba(204, 63, 16, 0.3); }
+  to { box-shadow: 0 0 25px rgba(255, 60, 20, 0.7); }
+}
   </style>
+
+  <link rel="icon" type="image" href="/orcatombe/main.png">
 </head>
 
 <body>
@@ -760,7 +1213,8 @@
       <button class="tab" onclick="showPanel('papeis', event)">Papéis sagrados</button>
       <button class="tab" onclick="showPanel('cronologia', event)">Fases da Guerra</button>
       <button class="tab" onclick="showPanel('registro', event)">Registro & Pontuação</button>
-      <button class="tab" onclick="showPanel('ranking', event)">🏆 Ranking</button>
+      <button class="tab" onclick="showPanel('ranking', event)">Ranking</button>
+      <button class="tab" id="tabAnalytics" onclick="showPanel('analytics', event)" style="display:none;">Analytics</button>
     </div>
 
     <!-- PAINEL EQUIPES (CONTEÚDO COMPLETO) -->
@@ -909,6 +1363,34 @@
           <div style="font-size:14px; margin:8px 0; font-style:italic;">"Abata incólume o indigno que ousaria te
             flagelar"</div>
           <div style="font-size:12px;">Condição: maior taxa de conversão → rouba 5 PE de qualquer equipe.</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <p class="section-title">🏅 Títulos de Guerra (Conquistas)</p>
+      <p style="font-size:13px; color:var(--color-text-secondary); margin-bottom:1.2rem;">
+        As equipes podem ostentar títulos temporários baseados em seus feitos nos últimos 3 dias.  
+        Cada título é recalculado em tempo real e aparece abaixo do nome da equipe no placar.
+      </p>
+      <div class="titulos-grid">
+        <div class="titulo-item">
+          <span class="titulo-badge ceifador">🌾 Ceifador</span>
+          <p>Maior número de <strong>reuniões agendadas</strong> nos últimos 3 dias.</p>
+        </div>
+        <div class="titulo-item">
+          <span class="titulo-badge inquebravel">🛡️ Inquebrável</span>
+          <p>Nenhum membro marcado como <strong>Desertor</strong> nos últimos 3 dias.</p>
+        </div>
+        <div class="titulo-item">
+          <span class="titulo-badge arauto">🌀 Arauto do Caos</span>
+          <p>Mais <strong>estigmas ativados</strong> nos últimos 3 dias.</p>
+        </div>
+        <div class="titulo-item">
+          <span class="titulo-badge senhor">⚔️ Senhor da Guerra</span>
+          <p>Maior <strong>pontuação total</strong> do ciclo (inclui ajustes).</p>
+        </div>
+        <div class="titulo-item">
+          <span class="titulo-badge mestre">🎯 Mestre do Funil</span>
+          <p>Maior <strong>taxa de conversão</strong> (reuniões / leads contatados) nos últimos 3 dias.</p>
         </div>
       </div>
     </div>
@@ -1155,7 +1637,12 @@
             </select></div>
           <div class="form-group">
             <label>Serviço</label>
-            <input type="text" id="leadServico" placeholder="Automático" readonly style="background: #0c1a0c;">
+            <select id="leadServico"
+              style="background: #0a0f0a; border: 1px solid var(--color-border-tertiary); border-radius: 6px; padding: 8px 10px; color: white; font-family: var(--font-sans); font-size: 13px;">
+              <option value="">-- Selecione --</option>
+              <option value="Design de Gamificação">Design de Gamificação</option>
+              <option value="Landing Page Gamificada">Landing Page Gamificada</option>
+            </select>
           </div>
           <div class="form-group">
             <label>Segmento</label>
@@ -1224,6 +1711,16 @@
           </table>
         </div>
 
+        <div id="paginacao"
+          style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 12px;">
+          <button class="btn small" onclick="mudarPagina(-1)">◀ Anterior</button>
+          <span style="color: var(--color-text-secondary); font-size: 13px;">
+            Página <strong id="paginaAtual" style="color: var(--orc-neon);">1</strong> de <strong id="totalPaginas"
+              style="color: var(--orc-neon);">1</strong>
+          </span>
+          <button class="btn small" onclick="mudarPagina(1)">Próximo ▶</button>
+        </div>
+
         <div>
           <p class="section-title" style="margin-top:1rem;">🏆 Placar da Guerra</p>
           <div class="pontuacao-grid" id="placarEquipes"></div>
@@ -1253,6 +1750,51 @@
       </div>
     </div>
 
+    <!-- PAINEL ANALYTICS (ADMIN) -->
+    <div id="analytics" class="panel">
+      <p class="section-title">📊 Analytics do Orcatombe</p>
+      
+      <!-- Cards de visão geral -->
+      <div class="analytics-cards" id="analyticsCards"></div>
+      
+      <hr class="divider">
+      
+      <!-- Gráficos lado a lado -->
+      <div class="analytics-grid">
+        <div>
+          <p class="section-title" style="margin-bottom:0.5rem;">⚔️ Pontos por Equipe</p>
+          <div class="chart-bar-horizontal" id="chartPontosEquipe"></div>
+        </div>
+        <div>
+          <p class="section-title" style="margin-bottom:0.5rem;">📈 Leads por Dia (7 dias)</p>
+          <div class="chart-bar-vertical" id="chartLeadsDia"></div>
+        </div>
+      </div>
+      
+      <hr class="divider">
+      
+      <div class="analytics-grid">
+        <div>
+          <p class="section-title" style="margin-bottom:0.5rem;">📡 Canais Utilizados</p>
+          <div class="chart-bar-horizontal" id="chartCanais"></div>
+        </div>
+        <div>
+          <p class="section-title" style="margin-bottom:0.5rem;">🔄 Funil de Conversão</p>
+          <div class="chart-funil" id="chartFunil"></div>
+        </div>
+      </div>
+      
+      <hr class="divider">
+      
+      <p class="section-title">👤 Top 10 Prospectadores (Todos os Tempos)</p>
+      <div style="overflow-x:auto;">
+        <table class="leads-table" style="min-width:600px;">
+          <thead><tr><th>#</th><th>Membro</th><th>Equipe</th><th>Leads</th><th>Reuniões</th><th>Propostas</th><th>Fechados</th><th>Pontos</th></tr></thead>
+          <tbody id="analyticsTop10"></tbody>
+        </table>
+      </div>
+    </div>
+
     <script>
       // Dados das equipes (com descrições completas)
       // ========== DADOS DAS EQUIPES (UI) ==========
@@ -1263,6 +1805,9 @@
         { name: "Vampiros", img: "https://static.wikia.nocookie.net/ordemparanormal/images/e/e7/Vampiros_na_abertura_de_Hexatombe.png/revision/latest?cb=20251227192453&path-prefix=pt-br", lore: "Pacientes como a noite eterna, os Vampiros não desperdiçam uma única gota de energia. Calculistas e metódicos, estudam o ICP à exaustão antes do primeiro contato. O estigma da Culpa os torna protetores dos caídos: ao resgatar um Desertor, o membro redimido sangra o dobro de pontos por um dia.", personality: "Pacientes.", vendas: "Landing Page Gamificada", abordagem: "Resgatar Desertor: resgatado dobra PE por 1 dia.", poder: "Resgate dobra PE do Desertor." },
         { name: "Transtornados", img: "https://static.wikia.nocookie.net/ordemparanormal/images/c/ce/Equipe_Transtornados_na_abertura_de_Hexatombe.png/revision/latest?cb=20251224143228&path-prefix=pt-br", lore: "Giovanni e seus seguidores compreenderam que a verdadeira arma é a informação. Os Transtornados mantêm diários de batalha detalhados e conhecem os pontos fracos de todos. Seu estigma, o Orgulho, coroa a equipe com a maior taxa de conversão, permitindo-lhes drenar pontos de essência de qualquer adversário.", personality: "Inteligentes.", vendas: "Disputa os dois", abordagem: "Maior conversão → rouba 5 PE de qualquer equipe.", poder: "Roubo de Essência: 5 PE." }
       ];
+
+      let paginaAtual = 1;
+      const itensPorPagina = 20;
 
       window.selectTeam = function (i) {
         document.querySelectorAll('.team-card').forEach((c, idx) => {
@@ -1305,6 +1850,9 @@
         if (id === 'registro' && window.firebaseReady) {
           atualizarTabelaEPontuacao();
         }
+        if (id === 'analytics') {
+          atualizarAnalytics();
+        }
       };
 
       // ========== ADMIN ==========
@@ -1317,12 +1865,35 @@
           isAdmin = true;
           document.getElementById('btnLimparTudo').style.display = 'inline-block';
           document.getElementById('adminActionHeader').style.display = 'table-cell';
+          document.getElementById('tabAnalytics').style.display = 'inline-block';
+          document.getElementById('tabAnalytics').classList.add('tab');
           atualizarTabelaEPontuacao();
           alert('✅ Modo administrador ativado.');
         } else {
           alert('Senha incorreta.');
         }
       };
+
+      window.mudarPagina = function (delta) {
+        paginaAtual += delta;
+        atualizarTabelaEPontuacao();
+      };
+
+      // Resetar página ao mudar filtro
+      const filtroEquipeEl = document.getElementById('filtroEquipe');
+      const buscaLeadEl = document.getElementById('buscaLead');
+      if (filtroEquipeEl) {
+        filtroEquipeEl.addEventListener('change', () => {
+          paginaAtual = 1;
+          atualizarTabelaEPontuacao();
+        });
+      }
+      if (buscaLeadEl) {
+        buscaLeadEl.addEventListener('input', () => {
+          paginaAtual = 1;
+          atualizarTabelaEPontuacao();
+        });
+      }
 
       // ========== FIREBASE + LÓGICA ==========
       window.addEventListener('load', () => {
@@ -1334,14 +1905,17 @@
           "PSIKOLERA": "Design de Gamificação",
           "Couraças": "Landing Page Gamificada",
           "Vampiros": "Landing Page Gamificada",
-          "Transtornados": "sem info"
+          "Transtornados": ""
         };
         if (leadEquipeSelect && leadServicoInput) {
           leadEquipeSelect.addEventListener('change', () => {
-            leadServicoInput.value = servicoPorEquipe[leadEquipeSelect.value] || '';
+            const servico = servicoPorEquipe[leadEquipeSelect.value] || '';
+            if (servico) leadServicoInput.value = servico;
+            else leadServicoInput.value = ''; // Transtornados ficam sem seleção
           });
           // Dispara na carga inicial
-          leadServicoInput.value = servicoPorEquipe[leadEquipeSelect.value] || '';
+          const servicoInicial = servicoPorEquipe[leadEquipeSelect.value] || '';
+          if (servicoInicial) leadServicoInput.value = servicoInicial;
         }
         selectTeam(0);
 
@@ -1352,6 +1926,109 @@
 
         const { database, leadsRef, push, remove, update, ref, onValue } = window.firebaseDB;
         const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
+
+        // ========== MINI DASHBOARD INDIVIDUAL ==========
+        function abrirModalMembro(membro, equipe) {
+          const leads = window.leadsData || [];
+          const membroLeads = leads.filter(l => l.membro === membro && l.equipe === equipe);
+
+          const totalLeads = membroLeads.filter(l => l.status === 'contatado').length;
+          const totalReunioes = membroLeads.filter(l => l.status === 'reuniao').length;
+          const totalPropostas = membroLeads.filter(l => l.status === 'proposta').length;
+          const totalFechados = membroLeads.filter(l => l.status === 'fechado').length;
+          const pontosTotal = membroLeads.reduce((s, l) => s + (l.pontos || 0), 0);
+
+          const hoje = new Date();
+          const dias = [];
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date(hoje);
+            d.setDate(d.getDate() - i);
+            dias.push(d.toISOString().slice(0,10));
+          }
+          const leadsPorDia = {};
+          dias.forEach(d => leadsPorDia[d] = 0);
+          membroLeads.filter(l => l.status === 'contatado').forEach(l => {
+            if (leadsPorDia[l.data] !== undefined) leadsPorDia[l.data]++;
+          });
+          const totalContatadosSemana = Object.values(leadsPorDia).reduce((a, b) => a + b, 0);
+          const mediaDiaria = (totalContatadosSemana / 7).toFixed(1);
+
+          const equipeMembros = {};
+          leads.filter(l => l.equipe === equipe).forEach(l => {
+            if (!equipeMembros[l.membro]) equipeMembros[l.membro] = 0;
+            if (l.status === 'contatado') equipeMembros[l.membro]++;
+          });
+          const rankingEquipe = Object.entries(equipeMembros).sort((a, b) => b[1] - a[1]);
+          const posEquipe = rankingEquipe.findIndex(([nome]) => nome === membro) + 1;
+
+          const todosMembros = {};
+          leads.forEach(l => {
+            if (!todosMembros[l.membro]) todosMembros[l.membro] = { count: 0 };
+            if (l.status === 'contatado') todosMembros[l.membro].count++;
+          });
+          const rankingGeral = Object.entries(todosMembros).sort((a, b) => b[1].count - a[1].count);
+          const posGeral = rankingGeral.findIndex(([nome]) => nome === membro) + 1;
+
+          const maxDia = Math.max(...Object.values(leadsPorDia), 1);
+          const barrasHTML = dias.map(d => {
+            const altura = (leadsPorDia[d] / maxDia) * 50;
+            const rotulo = d.slice(5);
+            return `<div class="vertical-bar" style="width:34px;">
+      <div class="barra" style="height:${altura}px;"></div>
+      <span class="rotulo">${rotulo}</span>
+      <span class="rotulo" style="color:var(--orc-neon)">${leadsPorDia[d]}</span>
+    </div>`;
+          }).join('');
+
+          const conteudo = document.getElementById('modal-conteudo');
+          if (!conteudo) return;
+          conteudo.innerHTML = `
+            <div class="modal-conteudo">
+              <h3 style="font-family:var(--font-serif); color:var(--orc-neon); margin-bottom:4px;">${membro}</h3>
+              <p class="subtitulo">${equipe}</p>
+              <div class="analytics-cards" style="grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap:10px;">
+                <div class="analytics-card"><h3>📞 Leads</h3><div class="valor">${totalLeads}</div></div>
+                <div class="analytics-card"><h3>🤝 Reuniões</h3><div class="valor">${totalReunioes}</div></div>
+                <div class="analytics-card"><h3>📄 Propostas</h3><div class="valor">${totalPropostas}</div></div>
+                <div class="analytics-card fechado"><h3>🏆 Fechados</h3><div class="valor">${totalFechados}</div></div>
+                <div class="analytics-card"><h3>✨ Pontos</h3><div class="valor">${pontosTotal}</div></div>
+                <div class="analytics-card"><h3>📊 Média/dia</h3><div class="valor">${mediaDiaria}</div></div>
+              </div>
+              <div style="margin-top:18px; display:flex; gap:20px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:140px;">
+                  <p style="color:var(--color-text-secondary); font-size:12px;">🏅 Ranking na equipe: <strong style="color:var(--orc-neon)">#${posEquipe}</strong></p>
+                  <p style="color:var(--color-text-secondary); font-size:12px;">🌐 Ranking geral: <strong style="color:var(--orc-neon)">#${posGeral}</strong></p>
+                </div>
+              </div>
+              <div style="margin-top:20px;">
+                <p class="chart-title" style="margin-bottom:12px;">📈 Leads contatados (7 dias)</p>
+                <div class="chart-bar-vertical" style="height:130px; justify-content:flex-start; gap:14px; padding:10px 0;">
+                  ${barrasHTML}
+                </div>
+              </div>
+            </div>
+          `;
+
+          document.getElementById('modal-membro').style.display = 'flex';
+        }
+
+        window.fecharModalMembro = function() {
+          document.getElementById('modal-membro').style.display = 'none';
+        };
+
+        // Referência para ajustes de equipe
+        const ajustesRef = ref(database, 'ajustes/equipes');
+        let ajustesEquipes = {};
+
+        // Listener de ajustes
+        onValue(ajustesRef, (snapshot) => {
+          ajustesEquipes = snapshot.val() || {};
+          equipes.forEach(eq => {
+            if (!(eq in ajustesEquipes)) ajustesEquipes[eq] = 0;
+          });
+          window.ajustesEquipes = ajustesEquipes; // expor globalmente
+          atualizarTabelaEPontuacao();
+        });
 
         const connectedRef = ref(database, '.info/connected');
         onValue(connectedRef, (snap) => {
@@ -1375,6 +2052,62 @@
           atualizarTabelaEPontuacao();
         });
 
+        // Referência do nó de eventos
+        const eventosRef = ref(database, 'eventos');
+        let ultimoEventoId = null;
+
+        // Listener de eventos
+        onValue(eventosRef, (snapshot) => {
+          const eventos = [];
+          snapshot.forEach((child) => {
+            eventos.push({ id: child.key, ...child.val() });
+          });
+          // Pega apenas o último evento não processado (evita repetição ao carregar)
+          const ultimo = eventos.sort((a, b) => a.timestamp - b.timestamp).pop();
+          if (ultimo && ultimo.id !== ultimoEventoId) {
+            ultimoEventoId = ultimo.id;
+            exibirToast(ultimo);
+          }
+        });
+
+        // Função que exibe o toast
+        function exibirToast(evento) {
+          const container = document.getElementById('toast-container');
+          if (!container) return;
+
+          const div = document.createElement('div');
+          div.className = `toast ${evento.equipe || ''} ${evento.tipo === 'sino' ? 'sino' : ''}`;
+          
+          const icones = {
+            lead: '📞',
+            reuniao: '🤝',
+            estigma: '✨',
+            desertor: '⚠️',
+            sino: '🔔',
+            fechado: '🏆'
+          };
+          
+          div.innerHTML = `
+            <span class="emoji">${icones[evento.tipo] || '📌'}</span>
+            <div class="content">
+              <strong>${evento.equipe || 'Orcatombe'}</strong><br>
+              ${evento.mensagem}
+            </div>
+          `;
+          
+          container.appendChild(div);
+          
+          // Tenta tocar um som (opcional)
+          if (window.tocarSomNotificacao) {
+            window.tocarSomNotificacao(evento.tipo);
+          }
+          
+          // Remove o toast após 5s
+          setTimeout(() => {
+            if (div.parentNode) div.remove();
+          }, 5000);
+        }
+
         // Função para calcular pontos COM BÔNUS DE COTA
         function calcularPontosComCota(status, equipe, membro, data) {
           if (status !== 'contatado') {
@@ -1390,8 +2123,8 @@
             l.data === data &&
             l.status === 'contatado'
           ).length;
-          // Se já existem 6 ou mais contatos, o próximo ganha +2 de bônus (total 3)
-          return contatosNoDia >= 6 ? 3 : 1;
+          // Até 6 leads: 2 pontos. A partir do 7º: 5 pontos.
+          return contatosNoDia >= 6 ? 5 : 2;
         }
 
         window.adicionarLead = () => {
@@ -1412,6 +2145,19 @@
 
           const pontos = calcularPontosComCota(status, equipe, membro, data);
           push(leadsRef, { data, equipe, membro, lead: leadNome, empresa, canal, segmento, servico, status, pontos });
+
+          // Registra evento de notificação
+          const tipoEvento = status === 'contatado' ? 'lead' : status === 'reuniao' ? 'reuniao' : status === 'fechado' ? 'fechado' : null;
+          if (tipoEvento) {
+            push(eventosRef, {
+              equipe: equipe,
+              tipo: tipoEvento,
+              mensagem: tipoEvento === 'lead' ? `${membro} contatou ${leadNome}` :
+                        tipoEvento === 'reuniao' ? `🎉 ${membro} agendou reunião com ${leadNome}` :
+                        tipoEvento === 'fechado' ? `🏆 ${membro} FECHOU com ${leadNome}!` : '',
+              timestamp: Date.now()
+            });
+          }
 
           // Limpeza
           document.getElementById('leadNome').value = '';
@@ -1449,10 +2195,18 @@
             status: 'estigma',
             pontos: 15
           });
+          push(eventosRef, {
+            equipe: eq,
+            tipo: 'estigma',
+            mensagem: `✨ Estigma ativado por ${eq}! (+15 PE)`,
+            timestamp: Date.now()
+          });
         };
 
         window.registrarDesertor = () => {
           const eq = document.getElementById('leadEquipe').value;
+          
+          // 1. Registra o lead de desertor com penalidade maior
           push(leadsRef, {
             data: new Date().toISOString().slice(0, 10),
             equipe: eq,
@@ -1461,7 +2215,41 @@
             empresa: '-',
             canal: 'Penalidade',
             status: 'desertor',
-            pontos: -3
+            pontos: -8  // antes era -3
+          });
+          
+          // 2. Aplica penalidade duradoura no ajuste da equipe
+          const ajusteAtual = (window.ajustesEquipes && window.ajustesEquipes[eq]) || 0;
+          const novoAjuste = ajusteAtual - 2;  // -2 pontos fixos na equipe
+          const ajusteRef = ref(database, `ajustes/equipes/${eq}`);
+          update(ajusteRef, { [eq]: novoAjuste });
+          
+          // 3. Verifica acúmulo de desertores nos últimos 7 dias e pune progressivamente
+          const leads = window.leadsData || [];
+          const seteDiasAtras = new Date();
+          seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+          const limite = seteDiasAtras.toISOString().slice(0, 10);
+          
+          const desertoresRecentes = leads.filter(l => 
+            l.equipe === eq && 
+            l.status === 'desertor' && 
+            l.data >= limite
+          ).length;
+          
+          // Se já existem 2 ou mais desertores recentes (este é o 3º+), aplica penalidade extra
+          if (desertoresRecentes >= 3) {
+            const penalidadeExtra = -5;
+            const ajusteRef2 = ref(database, `ajustes/equipes/${eq}`);
+            update(ajusteRef2, { [eq]: novoAjuste + penalidadeExtra });
+            console.log(`⚠️ ${eq} acumulou ${desertoresRecentes} desertores! Penalidade extra de ${penalidadeExtra} pontos.`);
+          }
+          
+          // 4. Notificação de evento
+          push(eventosRef, {
+            equipe: eq,
+            tipo: 'desertor',
+            mensagem: `⚠️ DESERTOR em ${eq}! -8 pontos e -2 de penalidade na equipe.`,
+            timestamp: Date.now()
           });
         };
 
@@ -1479,6 +2267,12 @@
               pontos: eq === fechou ? 5 : -5
             });
           });
+          push(eventosRef, {
+            equipe: fechou,
+            tipo: 'sino',
+            mensagem: `🔔 SINO TOCADO! ${fechou} fechou proposta! Todas as outras equipes perdem 5 PE.`,
+            timestamp: Date.now()
+          });
         };
 
         window.resetarPlanilha = () => {
@@ -1492,12 +2286,93 @@
           update(ref(database), updates);
         };
 
+        window.atualizarAjusteEquipe = (equipe, novoValor) => {
+          if (!isAdmin) return;
+          const valor = parseInt(novoValor, 10);
+          if (isNaN(valor)) return;
+          // Atualiza no Firebase – passar um objeto com a chave correta
+          const ajusteRef = ref(database, `ajustes/equipes`);
+          update(ajusteRef, { [equipe]: valor });
+        };
+
+        function calcularTitulos(leads) {
+          const agora = new Date();
+          const tresDiasAtras = new Date(agora);
+          tresDiasAtras.setDate(agora.getDate() - 3);
+          const limite = tresDiasAtras.toISOString().slice(0,10);
+
+          const leadsRecentes = leads.filter(l => l.data >= limite && l.data <= agora.toISOString().slice(0,10));
+
+          const reunioes = {};
+          const desertores = {};
+          const estigmas = {};
+          const contatados = {};
+          const pontosTotal = {};
+
+          equipes.forEach(e => {
+            reunioes[e] = 0;
+            desertores[e] = 0;
+            estigmas[e] = 0;
+            contatados[e] = 0;
+            pontosTotal[e] = 0;
+          });
+
+          leads.forEach(l => {
+            if (!equipes.includes(l.equipe)) return;
+            pontosTotal[l.equipe] += (l.pontos || 0);
+          });
+
+          leadsRecentes.forEach(l => {
+            if (!equipes.includes(l.equipe)) return;
+            if (l.status === 'reuniao') reunioes[l.equipe]++;
+            if (l.status === 'desertor') desertores[l.equipe]++;
+            if (l.status === 'estigma') estigmas[l.equipe]++;
+            if (l.status === 'contatado') contatados[l.equipe]++;
+          });
+
+          const ajustes = window.ajustesEquipes || {};
+          equipes.forEach(e => pontosTotal[e] += (ajustes[e] || 0));
+
+          const titulos = {};
+          equipes.forEach(e => titulos[e] = []);
+
+          const maxReunioes = Math.max(...Object.values(reunioes), 0);
+          if (maxReunioes > 0) {
+            equipes.forEach(e => { if (reunioes[e] === maxReunioes) titulos[e].push({ classe: 'ceifador', texto: '🌾 Ceifador' }); });
+          }
+
+          equipes.forEach(e => {
+            if (desertores[e] === 0) titulos[e].push({ classe: 'inquebravel', texto: '🛡️ Inquebrável' });
+          });
+
+          const maxEstigmas = Math.max(...Object.values(estigmas), 0);
+          if (maxEstigmas > 0) {
+            equipes.forEach(e => { if (estigmas[e] === maxEstigmas) titulos[e].push({ classe: 'arauto', texto: '🌀 Arauto do Caos' }); });
+          }
+
+          const maxPontos = Math.max(...Object.values(pontosTotal), 0);
+          if (maxPontos > 0) {
+            equipes.forEach(e => { if (pontosTotal[e] === maxPontos) titulos[e].push({ classe: 'senhor', texto: '⚔️ Senhor da Guerra' }); });
+          }
+
+          const taxas = {};
+          equipes.forEach(e => {
+            taxas[e] = contatados[e] > 0 ? (reunioes[e] / contatados[e]) * 100 : 0;
+          });
+          const maxTaxa = Math.max(...Object.values(taxas), 0);
+          if (maxTaxa > 0) {
+            equipes.forEach(e => { if (taxas[e] === maxTaxa) titulos[e].push({ classe: 'mestre', texto: '🎯 Mestre do Funil' }); });
+          }
+
+          return titulos;
+        }
+
         function atualizarTabelaEPontuacao() {
           const leads = window.leadsData || [];
           const equipeFiltro = document.getElementById('filtroEquipe')?.value || 'TODAS';
           const busca = (document.getElementById('buscaLead')?.value || '').toLowerCase().trim();
 
-          // Preenche serviço automaticamente para exibição (não altera banco)
+          // Preenche serviço automaticamente para exibição
           const servicoPorEquipe = {
             "Mascarados": "Design de Gamificação",
             "PSIKOLERA": "Design de Gamificação",
@@ -1520,7 +2395,25 @@
           const tbody = document.getElementById('leadsBody');
           tbody.innerHTML = '';
 
-          leadsFiltrados.forEach(l => {
+          // Paginação
+          const totalLeads = leadsFiltrados.length;
+          const totalPaginas = Math.ceil(totalLeads / itensPorPagina) || 1;
+          // Garante que a página atual não ultrapasse o total
+          if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
+          const inicio = (paginaAtual - 1) * itensPorPagina;
+          const fim = inicio + itensPorPagina;
+          const leadsPaginados = leadsFiltrados.slice(inicio, fim);
+
+          // Atualiza os controles de paginação
+          document.getElementById('paginaAtual').innerText = paginaAtual;
+          document.getElementById('totalPaginas').innerText = totalPaginas;
+          document.querySelectorAll('#paginacao button').forEach(btn => {
+            btn.disabled = false;
+          });
+          if (paginaAtual <= 1) document.querySelector('#paginacao button:first-child').disabled = true;
+          if (paginaAtual >= totalPaginas) document.querySelector('#paginacao button:last-child').disabled = true;
+
+          leadsPaginados.forEach(l => {
             const servico = l.servico || servicoPorEquipe[l.equipe] || '';
             const segmento = l.segmento || '';
             const tr = document.createElement('tr');
@@ -1531,32 +2424,74 @@
         <input class="editable-points" type="number" value="${l.pontos}" onchange="atualizarPontosLead('${l.id}', this.value)">
       </td>`;
             }
-            tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td>${l.membro}</td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${segmento}</td><td>${servico}</td><td>${l.status}</td><td>${l.pontos}</td>${acaoHtml}`;
+            tr.innerHTML = `<td>${l.data}</td><td>${l.equipe}</td><td><span class="membro-clickable" data-membro="${l.membro}" data-equipe="${l.equipe}" style="cursor:pointer; color:var(--orc-neon); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px;">${l.membro}</span></td><td>${l.lead}</td><td>${l.empresa || '-'}</td><td>${l.canal}</td><td>${segmento}</td><td>${servico}</td><td>${l.status}</td><td>${l.pontos}</td>${acaoHtml}`;
             tbody.appendChild(tr);
           });
 
           document.getElementById('adminActionHeader').style.display = isAdmin ? 'table-cell' : 'none';
 
-          // Placar de equipes (para a aba registro E para o ranking)
+          // Placar de equipes (pontos reais + ajustes)
           const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
           const pontosPorEquipe = {};
           equipes.forEach(e => pontosPorEquipe[e] = 0);
           leads.forEach(l => { if (equipes.includes(l.equipe)) pontosPorEquipe[l.equipe] += l.pontos; });
+
+          // Aplica ajustes do admin (se existirem)
+          const ajustes = window.ajustesEquipes || {};
+          equipes.forEach(eq => {
+            pontosPorEquipe[eq] += (ajustes[eq] || 0);
+          });
+
+          window.ajustesEquipes = ajustesEquipes;
+
           const max = Math.max(...Object.values(pontosPorEquipe));
+
+          const titulosEquipes = calcularTitulos(leads);
+
+          // Monta HTML do placar
           const placarHTML = equipes.map(eq => {
             const pts = pontosPorEquipe[eq];
-            return `<div class="pontuacao-card"><h4>${eq}</h4><div class="score">${pts}</div>${pts === max && max > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}</div>`;
+            const ajusteAtual = ajustes[eq] || 0;
+            // Se admin, mostra input para editar ajuste
+            const ajusteInput = isAdmin ?
+              `<div style="margin-top:5px; font-size:11px;">
+        Ajuste: <input type="number" value="${ajusteAtual}" 
+          onchange="atualizarAjusteEquipe('${eq}', this.value)" 
+          style="width:60px; background:#0a0f0a; color:white; border:1px solid var(--orc-neon); border-radius:4px; padding:2px 4px; text-align:center;">
+       </div>` : '';
+
+            const badgesHTML = titulosEquipes[eq].map(t =>
+              `<span class="titulo-badge ${t.classe}">${t.texto}</span>`
+            ).join(' ');
+
+            // Verifica se a equipe tem desertores nos últimos 7 dias
+            const seteDiasAtras = new Date();
+            seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+            const limiteDesertor = seteDiasAtras.toISOString().slice(0, 10);
+            const temDesertorRecente = leads.some(l => 
+              l.equipe === eq && 
+              l.status === 'desertor' && 
+              l.data >= limiteDesertor
+            );
+
+            return `<div class="pontuacao-card ${temDesertorRecente ? 'alerta-desertor' : ''}">
+      <h4>${eq} ${temDesertorRecente ? '⚠️' : ''}</h4>
+      <div class="score">${pts}</div>
+      ${pts === max && max > 0 ? '<span class="badge-leader">LÍDER</span>' : ''}
+      <div style="margin-top:6px; display:flex; flex-wrap:wrap; justify-content:center; gap:4px;">${badgesHTML}</div>
+      ${ajusteInput}
+    </div>`;
           }).join('');
 
-          // Atualiza placar na aba Registro (se existir)
+          // Atualiza placar na aba Registro
           const placarRegistro = document.getElementById('placarEquipes');
           if (placarRegistro) placarRegistro.innerHTML = placarHTML;
 
-          // Atualiza placar na aba Ranking (se existir)
+          // Atualiza placar na aba Ranking
           const placarRanking = document.getElementById('placarEquipesRanking');
           if (placarRanking) placarRanking.innerHTML = placarHTML;
 
-          // Ranking individual: Top 6 por quantidade de leads (total)
+          // Ranking individual (mantido)
           const membroContagem = {};
           leads.forEach(l => {
             const chave = `${l.membro} (${l.equipe})`;
@@ -1570,10 +2505,12 @@
           if (rankingBody) {
             rankingBody.innerHTML = ranking.map(([nome, qtd], idx) => {
               const pontosInd = leads.filter(l => `${l.membro} (${l.equipe})` === nome).reduce((s, l) => s + (l.pontos || 0), 0);
+              const membroNome = nome.split(' (')[0];
+              const membroEquipe = nome.split(' (')[1]?.replace(')', '') || '';
               return `<tr>
         <td>${idx + 1}º</td>
-        <td>${nome.split(' (')[0]}</td>
-        <td>${nome.split(' (')[1]?.replace(')', '') || ''}</td>
+        <td><span class="membro-clickable" data-membro="${membroNome}" data-equipe="${membroEquipe}" style="cursor:pointer; color:var(--orc-neon); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px;">${membroNome}</span></td>
+        <td>${membroEquipe}</td>
         <td>${qtd}</td>
         <td>${pontosInd}</td>
       </tr>`;
@@ -1581,16 +2518,183 @@
           }
         }
 
+        function atualizarAnalytics() {
+          const leads = window.leadsData || [];
+          if (!leads.length) return;
+
+          const totalLeads = leads.filter(l => l.status === 'contatado').length;
+          const totalReunioes = leads.filter(l => l.status === 'reuniao').length;
+          const totalPropostas = leads.filter(l => l.status === 'proposta').length;
+          const totalFechados = leads.filter(l => l.status === 'fechado').length;
+          const pontosTotal = leads.reduce((s, l) => s + (l.pontos || 0), 0);
+
+          document.getElementById('analyticsCards').innerHTML = `
+            <div class="analytics-card"><h3>📞 Leads Contatados</h3><div class="valor">${totalLeads}</div></div>
+            <div class="analytics-card"><h3>🤝 Reuniões</h3><div class="valor">${totalReunioes}</div></div>
+            <div class="analytics-card"><h3>📄 Propostas</h3><div class="valor">${totalPropostas}</div></div>
+            <div class="analytics-card fechado"><h3>🏆 Fechados</h3><div class="valor">${totalFechados}</div></div>
+            <div class="analytics-card"><h3>✨ Pontos Totais</h3><div class="valor">${pontosTotal}</div></div>
+          `;
+
+          const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
+          const ajustes = window.ajustesEquipes || {};
+          const pontosEquipe = {};
+          equipes.forEach(e => pontosEquipe[e] = (ajustes[e] || 0));
+          leads.forEach(l => { if (equipes.includes(l.equipe)) pontosEquipe[l.equipe] += (l.pontos || 0); });
+          const maxPts = Math.max(...Object.values(pontosEquipe), 1);
+          const coresEquipe = { Mascarados: '#a32d2d', PSIKOLERA: '#d4a72c', Couraças: '#534AB7', Vampiros: '#8B0000', Transtornados: '#0F6E56' };
+
+          document.getElementById('chartPontosEquipe').innerHTML = equipes.map(eq => {
+            const pts = pontosEquipe[eq];
+            const pct = (pts / maxPts) * 100;
+            return `<div class="bar-row">
+              <span class="bar-label">${eq}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${coresEquipe[eq] || 'var(--orc-neon)'}"></div></div>
+              <span class="bar-valor">${pts}</span>
+            </div>`;
+          }).join('');
+
+          const hoje = new Date();
+          const dias = [];
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date(hoje);
+            d.setDate(d.getDate() - i);
+            dias.push(d.toISOString().slice(0,10));
+          }
+          const leadsPorDia = {};
+          dias.forEach(d => leadsPorDia[d] = 0);
+          leads.forEach(l => { if (leadsPorDia[l.data] !== undefined) leadsPorDia[l.data]++; });
+          const maxDia = Math.max(...Object.values(leadsPorDia), 1);
+
+          document.getElementById('chartLeadsDia').innerHTML = dias.map(d => {
+            const qtd = leadsPorDia[d];
+            const altura = (qtd / maxDia) * 150;
+            const rotulo = d.slice(5);
+            return `<div class="vertical-bar">
+              <div class="barra" style="height:${altura}px;"></div>
+              <span class="rotulo">${rotulo}</span>
+              <span class="rotulo" style="color:var(--orc-neon)">${qtd}</span>
+            </div>`;
+          }).join('');
+
+          const canaisContagem = {};
+          leads.forEach(l => {
+            const c = l.canal || 'Outro';
+            canaisContagem[c] = (canaisContagem[c] || 0) + 1;
+          });
+          const maxCanal = Math.max(...Object.values(canaisContagem), 1);
+          const canaisOrdenados = Object.entries(canaisContagem).sort((a,b) => b[1]-a[1]);
+
+          document.getElementById('chartCanais').innerHTML = canaisOrdenados.map(([canal, qtd]) => {
+            return `<div class="bar-row">
+              <span class="bar-label">${canal}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${(qtd/maxCanal)*100}%;"></div></div>
+              <span class="bar-valor">${qtd} (${((qtd / leads.length) * 100).toFixed(0)}%)</span>
+            </div>`;
+          }).join('');
+
+          const taxaReuniao = totalLeads > 0 ? (totalReunioes / totalLeads * 100) : 0;
+          const taxaProposta = totalReunioes > 0 ? (totalPropostas / totalReunioes * 100) : 0;
+          const taxaFechado = totalPropostas > 0 ? (totalFechados / totalPropostas * 100) : 0;
+
+          document.getElementById('chartFunil').innerHTML = `
+            <div class="funil-step">
+              <span class="funil-nome">📞 Leads</span>
+              <div class="funil-track"><div class="funil-fill" style="width:100%;"></div></div>
+              <span class="funil-valor">${totalLeads}</span>
+            </div>
+            <div class="funil-step">
+              <span class="funil-nome">🤝 Reuniões</span>
+              <div class="funil-track"><div class="funil-fill" style="width:${taxaReuniao}%;"></div></div>
+              <span class="funil-valor">${totalReunioes} (${taxaReuniao.toFixed(0)}%)</span>
+            </div>
+            <div class="funil-step">
+              <span class="funil-nome">📄 Propostas</span>
+              <div class="funil-track"><div class="funil-fill" style="width:${taxaProposta}%;"></div></div>
+              <span class="funil-valor">${totalPropostas} (${taxaProposta.toFixed(0)}%)</span>
+            </div>
+            <div class="funil-step">
+              <span class="funil-nome">🏆 Fechados</span>
+              <div class="funil-track"><div class="funil-fill" style="width:${taxaFechado}%;"></div></div>
+              <span class="funil-valor">${totalFechados} (${taxaFechado.toFixed(0)}%)</span>
+            </div>
+          `;
+
+          const membroStats = {};
+          leads.forEach(l => {
+            if (!membroStats[l.membro]) {
+              membroStats[l.membro] = { equipe: l.equipe, leads: 0, reunioes: 0, propostas: 0, fechados: 0, pontos: 0 };
+            }
+            const s = membroStats[l.membro];
+            s.pontos += l.pontos || 0;
+            if (l.status === 'contatado') s.leads++;
+            else if (l.status === 'reuniao') s.reunioes++;
+            else if (l.status === 'proposta') s.propostas++;
+            else if (l.status === 'fechado') s.fechados++;
+          });
+          const ranking10 = Object.entries(membroStats)
+            .sort((a,b) => b[1].pontos - a[1].pontos)
+            .slice(0, 10);
+
+          document.getElementById('analyticsTop10').innerHTML = ranking10.map(([nome, s], idx) => {
+            return `<tr>
+              <td>${idx+1}º</td>
+              <td>${nome}</td>
+              <td>${s.equipe}</td>
+              <td>${s.leads}</td>
+              <td>${s.reunioes}</td>
+              <td>${s.propostas}</td>
+              <td>${s.fechados}</td>
+              <td>${s.pontos}</td>
+            </tr>`;
+          }).join('');
+        }
+
         // Torna a função acessível globalmente
         window.atualizarTabelaEPontuacao = atualizarTabelaEPontuacao;
+        const originalAtualizar = window.atualizarTabelaEPontuacao;
+        window.atualizarTabelaEPontuacao = function() {
+          originalAtualizar();
+          atualizarAnalytics();
+        };
 
         // Conectar eventos de filtro
         const filtroEquipeEl = document.getElementById('filtroEquipe');
         const buscaLeadEl = document.getElementById('buscaLead');
         if (filtroEquipeEl) filtroEquipeEl.addEventListener('change', atualizarTabelaEPontuacao);
         if (buscaLeadEl) buscaLeadEl.addEventListener('input', atualizarTabelaEPontuacao);
+
+        // Listeners para abrir o mini dashboard ao clicar no nome do membro
+        const leadsBody = document.getElementById('leadsBody');
+        if (leadsBody) {
+          leadsBody.addEventListener('click', function(e) {
+            const target = e.target.closest('.membro-clickable');
+            if (target) {
+              abrirModalMembro(target.dataset.membro, target.dataset.equipe);
+            }
+          });
+        }
+
+        const rankingBody = document.getElementById('rankingIndividualBody');
+        if (rankingBody) {
+          rankingBody.addEventListener('click', function(e) {
+            const target = e.target.closest('.membro-clickable');
+            if (target) {
+              abrirModalMembro(target.dataset.membro, target.dataset.equipe);
+            }
+          });
+        }
       });
     </script>
+<div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none;"></div>
+
+<!-- Modal do Mini Dashboard -->
+<div id="modal-membro" class="modal-overlay" onclick="if(event.target === this) fecharModalMembro()">
+  <div class="modal-card">
+    <button class="modal-close" onclick="fecharModalMembro()">✕</button>
+    <div id="modal-conteudo" class="modal-conteudo"></div>
+  </div>
+</div>
 </body>
 
 </html>
