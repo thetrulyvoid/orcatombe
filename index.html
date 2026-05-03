@@ -27,14 +27,14 @@
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, onValue, push, remove, update, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const leadsRef = ref(database, 'leads');
 
     window.firebaseReady = true;
-    window.firebaseDB = { database, leadsRef, push, remove, update, ref, onValue };
+    window.firebaseDB = { database, leadsRef, push, remove, update, set, ref, onValue };
     console.log('🔥 Firebase inicializado. Pronto para o Orcatombe.');
   </script>
   <style>
@@ -1905,7 +1905,7 @@
           return;
         }
 
-        const { database, leadsRef, push, remove, update, ref, onValue } = window.firebaseDB;
+        const { database, leadsRef, push, remove, update, set, ref, onValue } = window.firebaseDB;
         const equipes = ["Mascarados", "PSIKOLERA", "Couraças", "Vampiros", "Transtornados"];
 
         // ========== MINI DASHBOARD INDIVIDUAL ==========
@@ -2005,11 +2005,24 @@
 
         // Listener de ajustes
         onValue(ajustesRef, (snapshot) => {
-          ajustesEquipes = snapshot.val() || {};
+          const rawData = snapshot.val() || {};
+          const cleanData = {};
           equipes.forEach(eq => {
-            if (!(eq in ajustesEquipes)) ajustesEquipes[eq] = 0;
+            const raw = rawData[eq];
+            if (raw === undefined || raw === null) {
+              cleanData[eq] = 0;
+            } else if (typeof raw === 'number') {
+              cleanData[eq] = raw;
+            } else if (typeof raw === 'object') {
+              // Objeto aninhado → extrai o primeiro número que encontrar
+              const innerNumber = Object.values(raw).find(v => typeof v === 'number') || 0;
+              cleanData[eq] = innerNumber;
+              console.warn(`⚠️ Ajuste de ${eq} ainda está como objeto. Execute o script de limpeza no console.`);
+            } else {
+              cleanData[eq] = Number(raw) || 0;
+            }
           });
-          window.ajustesEquipes = ajustesEquipes; // expor globalmente
+          window.ajustesEquipes = cleanData;
           atualizarTabelaEPontuacao();
         });
 
@@ -2276,8 +2289,35 @@
           if (!isAdmin) return;
           const valor = parseInt(novoValor, 10);
           if (isNaN(valor)) return;
-          // Salva o número diretamente no nó da equipe
-          update(ref(database, `ajustes/equipes/${equipe}`), valor);
+          // Grava diretamente o número (sem criar objetos aninhados)
+          set(ref(database, `ajustes/equipes/${equipe}`), valor);
+        };
+
+        window.salvarAjusteEquipe = (equipe) => {
+          if (!isAdmin) return;
+          const inputEl = document.getElementById(`ajuste-${equipe}`);
+          if (!inputEl) return;
+          const valor = parseInt(inputEl.value, 10);
+          if (isNaN(valor)) {
+            // Reverte para o valor anterior se não for número
+            inputEl.value = window.ajustesEquipes[equipe] || 0;
+            return;
+          }
+          
+          // Salva no Firebase
+          set(ref(database, `ajustes/equipes/${equipe}`), valor)
+            .then(() => {
+              // Feedback visual
+              inputEl.style.background = '#2eb600';
+              inputEl.style.transition = 'background 0.2s';
+              setTimeout(() => {
+                inputEl.style.background = '#0a0f0a';
+              }, 500);
+            })
+            .catch(err => {
+              console.error('Erro ao salvar ajuste:', err);
+              alert('Erro ao salvar ajuste. Verifique as permissões do Firebase.');
+            });
         };
 
         function calcularTitulos(leads) {
@@ -2453,8 +2493,9 @@
             // Se admin, mostra input para editar ajuste
             const ajusteInput = isAdmin ?
               `<div style="margin-top:5px; font-size:11px;">
-        Ajuste: <input type="number" value="${ajusteAtual}" 
-          onchange="atualizarAjusteEquipe('${eq}', this.value)" 
+        Ajuste: <input type="number" id="ajuste-${eq}" value="${ajusteAtual}" 
+          onblur="salvarAjusteEquipe('${eq}')" 
+          onkeydown="if(event.key==='Enter') salvarAjusteEquipe('${eq}')" 
           style="width:60px; background:#0a0f0a; color:white; border:1px solid var(--orc-neon); border-radius:4px; padding:2px 4px; text-align:center;">
        </div>` : '';
 
