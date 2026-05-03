@@ -1180,7 +1180,6 @@
 
   </style>
 
-  <link rel="icon" type="image" href="/orcatombe/main.png">
 </head>
 
 <body>
@@ -1670,8 +1669,6 @@
               <input type="password" id="adminPassword" placeholder="Senha admin">
               <button class="btn small" onclick="loginAdmin()">🔐 Login</button>
             </div>
-            <button class="btn small" id="btnLimparTudo" onclick="resetarPlanilha()" style="display:none;">🗑️ Limpar
-              Tudo</button>
           </div>
         </div>
 
@@ -2279,9 +2276,8 @@
           if (!isAdmin) return;
           const valor = parseInt(novoValor, 10);
           if (isNaN(valor)) return;
-          // Salva diretamente no caminho correto, garantindo que é um número
-          const equipeAjusteRef = ref(database, `ajustes/equipes/${equipe}`);
-          update(equipeAjusteRef, { [equipe]: valor });
+          // Salva o número diretamente no nó da equipe
+          update(ref(database, `ajustes/equipes/${equipe}`), valor);
         };
 
         function calcularTitulos(leads) {
@@ -2379,14 +2375,15 @@
             return true;
           });
 
-          // Ordena por data decrescente (mais recente primeiro)
+          // Ordenação por data decrescente e depois por id decrescente (mais recente primeiro)
           leadsFiltrados.sort((a, b) => {
-            const dataA = a.data || '';
-            const dataB = b.data || '';
-            const cmp = dataB.localeCompare(dataA);
-            if (cmp !== 0) return cmp;
-            // Se a data for igual, usa o id para manter o lead mais recente primeiro
-            return (b.id || '').localeCompare(a.id || '');
+            const dataA = a.data || '0000-00-00';
+            const dataB = b.data || '0000-00-00';
+            if (dataA !== dataB) return dataB.localeCompare(dataA);
+            // Se mesma data, usa o id (Firebase push keys são lexicograficamente crescentes)
+            const idA = a.id || '';
+            const idB = b.id || '';
+            return idB.localeCompare(idA);
           });
 
           document.getElementById('contadorLeads').innerText = leads.length;
